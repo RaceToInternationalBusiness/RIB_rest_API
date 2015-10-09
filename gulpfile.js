@@ -1,13 +1,15 @@
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
-    concat = require('gulp-concat'),
+    gulpif = require('gulp-if'),
+    //concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
     sourcemaps = require('gulp-sourcemaps'),
 
     server = require('gulp-express'),
+    argv = require('yargs').argv,
 
-    clean = require('gulp-clean'),
+    clean = require('gulp-rimraf'),
 
     paths = {
         scripts_src: ['./src/**/*.js'],
@@ -30,10 +32,10 @@ gulp.task('scripts', ['clean'], function() {
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jshint.reporter('fail'))
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
+        .pipe(gulpif(argv.prod, sourcemaps.init()))
+        .pipe(gulpif(argv.prod, uglify()))
         //.pipe(concat('app.js'))
-        .pipe(sourcemaps.write())
+        .pipe(gulpif(argv.prod, sourcemaps.write()))
         .pipe(gulp.dest(paths.scripts_build))
 });
 
@@ -48,4 +50,6 @@ gulp.task('watch', ['scripts', 'run'], function() {
 });
 
 gulp.task('default', ['watch', 'scripts']);
+
+gulp.task('build', ['scripts']);
 
