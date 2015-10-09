@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
@@ -26,6 +27,9 @@ gulp.task('scripts', ['clean'], function() {
     // with sourcemaps all the way down
     return gulp.src(paths.scripts_src)
         .pipe(plumber())
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'))
+        .pipe(jshint.reporter('fail'))
         .pipe(sourcemaps.init())
         .pipe(uglify())
         //.pipe(concat('app.js'))
