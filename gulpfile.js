@@ -6,7 +6,6 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     sourcemaps = require('gulp-sourcemaps'),
 
-    server = require('gulp-express'),
     argv = require('yargs').argv,
 
     clean = require('gulp-rimraf'),
@@ -40,6 +39,8 @@ gulp.task('scripts', ['clean'], function() {
 });
 
 gulp.task('run', ['scripts'], function() {
+
+    var server = require('gulp-express');
     server.run(['bin/www']);
 
 });
