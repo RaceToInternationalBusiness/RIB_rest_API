@@ -10,7 +10,11 @@ router.get('/', function(req, res, next) {
     version: '1.0.0-SNAPSHOT'
   };
   res.send(appInfo);
+})
+.use(function(req,res,next){
+	res.setHeader('Content-Type', 'text/plain');
+	res.send(404, 'Page introuvable !');
 });
 
-module.exports = router;
 
+module.exports = router;
