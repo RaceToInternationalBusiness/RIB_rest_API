@@ -54,3 +54,7 @@ gulp.task('default', ['watch', 'scripts']);
 
 gulp.task('build', ['scripts']);
 
+gulp.task('test', ['build'], function() {
+    //TODO run test
+});
+
