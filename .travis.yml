@@ -1,26 +1,19 @@
 language: node_js
 node_js:
+      - "iojs"
       - "4.1"
       - "4.0"
       - "0.12"
       - "0.11"
       - "0.10"
-      - "0.8"
-      - "0.6"
-      - "iojs"
 
 before_script:
       - npm install
 script: gulp test
 
-
 matrix:
       allow_failures:
-            - node_js:
-                  - "0.12"
-                  - "0.11"
-                  - "0.10"
-                  - "0.8"
-                  - "0.6"
-                  - "iojs"
+            - node_js: "0.12"
+            - node_js: "0.11"
+            - node_js: "0.10"
 
