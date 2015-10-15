@@ -3,14 +3,15 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res) {
     var appInfo = {
-        name: 'MarkChamp',
-        version: '1.0.0-SNAPSHOT'
+        name: 'Race to International Business',
+        version: '1.0.0',
+        environ: process.env.NODE_ENV
     };
     res.send(appInfo);
 });
+
 router.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;

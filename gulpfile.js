@@ -13,7 +13,6 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     argv = require('yargs').argv;
 
-
 var paths = {
     scripts_src: ['./src/**/*.js'],
     scripts_build: './build/js'
@@ -46,6 +45,12 @@ gulp.task('scripts', ['clean'], function() {
 });
 
 gulp.task('run', ['scripts'], function() {
+    plugins.env({
+        vars: {
+            NPM_CONFIG_LOGLEVEL: 'debug',
+            NODE_ENV: 'development'
+        }
+    });
     plugins.express.run(['bin/www']);
 });
 
