@@ -4,17 +4,17 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  var appInfo = {
-    name: 'MarkChamp',
-    version: '1.0.0-SNAPSHOT'
-  };
-  res.send(appInfo);
-})
-.use(function(req,res,next){
-	res.setHeader('Content-Type', 'text/plain');
-	res.send(404, 'Page introuvable !');
+router.get('/', function(req, res) {
+    var appInfo = {
+        name: 'MarkChamp',
+        version: '1.0.0-SNAPSHOT'
+    };
+    res.send(appInfo);
 });
-
+router.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
 
 module.exports = router;

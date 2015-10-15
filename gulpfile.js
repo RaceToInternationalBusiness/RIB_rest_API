@@ -1,16 +1,18 @@
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')({
-        pattern: ['gulp-*', 'gulp.*'], // the glob(s) to search for
-        scope: ['dependencies', 'devDependencies', 'peerDependencies'], // which keys in the config to look within
-        replaceString: /^gulp(-|\.)/, // what to remove from the name of the module when adding it to the context
-        camelize: true,
+        //pattern: ['gulp-*', 'gulp.*'], // the glob(s) to search for
+        //scope: ['dependencies', 'devDependencies', 'peerDependencies'], // which keys in the config to look within
+        //replaceString: /^gulp(-|\.)/, // what to remove from the name of the module when adding it to the context
+        //camelize: true,
         lazy: true,
         rename: {
             'gulp-if':'gulpif'
         }
     }),
 
+    plumber = require('gulp-plumber'),
     argv = require('yargs').argv;
+
 
 var paths = {
     scripts_src: ['./src/**/*.js'],
@@ -22,22 +24,25 @@ var paths = {
 gulp.task('clean', function(cb) {
     // You can use multiple globbing patterns as you would with `gulp.src`
     return gulp.src('build', {read: false})
-               .pipe(plugins.rimraf());
+        .pipe(plugins.rimraf());
 });
 
 gulp.task('scripts', ['clean'], function() {
     // Minify and copy all JavaScript (except vendor scripts)
     // with sourcemaps all the way down
     return gulp.src(paths.scripts_src)
-               .pipe(plugins.gulpif(!argv.prod, plugins.plumber()))
-               .pipe(plugins.jshint())
-               .pipe(plugins.jshint.reporter('jshint-stylish'))
-               .pipe(plugins.jshint.reporter('fail'))
-               .pipe(plugins.gulpif(argv.prod, plugins.sourcemaps.init()))
-               .pipe(plugins.gulpif(argv.prod, plugins.uglify()))
-               //.pipe(concat('app.js'))
-               .pipe(plugins.gulpif(argv.prod, plugins.sourcemaps.write()))
-               .pipe(gulp.dest(paths.scripts_build))
+        .pipe(plugins.plumber())
+        .pipe(plugins.jshint())
+        .pipe(plugins.jshint.reporter('jshint-stylish'))
+        .pipe(plugins.jshint.reporter('fail'))
+        .pipe(plugins.jscs())
+        .pipe(plugins.jscs.reporter())
+        .pipe(plugins.jscs.reporter('fail'))
+        .pipe(plugins.gulpif(argv.prod, plugins.sourcemaps.init()))
+        .pipe(plugins.gulpif(argv.prod, plugins.uglify()))
+        //.pipe(concat('app.js'))
+        .pipe(plugins.gulpif(argv.prod, plugins.sourcemaps.write()))
+        .pipe(gulp.dest(paths.scripts_build))
 });
 
 gulp.task('run', ['scripts'], function() {
