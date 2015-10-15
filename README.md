@@ -1,4 +1,4 @@
-Race to International Business
+Race to International Business [![Build Status](https://travis-ci.org/RaceToInternationalBusiness/RIB_rest_API.svg?branch=develop)](https://travis-ci.org/RaceToInternationalBusiness/RIB_rest_API)
 ==============================
 
 How to install (Dev version)
