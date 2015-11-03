@@ -73,10 +73,10 @@
     // Custom Globals
     "globals": {
       "$"           : true,
-      "angular"     : true,
+      "angular"     : false,
       "define"      : false,
       "jasmine"     : false,
-      "require"     : false,
+      "require"     : true,
       "exports"     : false,
       "module"      : false,
       "describe"    : false,
@@ -90,3 +90,4 @@
       "spyOn"       : false
     }
 }
+
