@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/RIB_DB');
 // create instance of Schema
-var mongoSchema = mongoose.Schema;
+//var mongoSchema = mongoose.Schema;
 // create schema
 var team = {
     'name': String,
@@ -14,3 +14,4 @@ var team = {
 };
 // create model if not exists.
 module.exports = mongoose.model('team', team);
+

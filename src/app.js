@@ -3,7 +3,7 @@ var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var api = require('./routes/api');
+//var api = require('./routes/api');
 var teams = require('./routes/team.js');
 
 var app = express();
@@ -51,3 +51,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
