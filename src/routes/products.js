@@ -52,40 +52,6 @@ router.get('/', function(req, res) {
         res.send();
     });
 })
-/**
- * put (update) new information team
- */
-.put(function(req,res){
-    var response = {};
-    // first find out record exists or not
-    // if it does then update the record
-    mongoOp.findById(req.params.id,function(err,data){
-        if(err) {
-            response = {"error" : true,"message" : "Error fetching data"};
-        } else {
-            // we got data from Mongo.
-            // change it accordingly.
-            if(req.body.userEmail !== undefined) {
-                // case where email needs to be updated.
-                data.userEmail = req.body.userEmail;
-            }
-            if(req.body.userPassword !== undefined) {
-                // case where password needs to be updated
-                data.userPassword = req.body.userPassword;
-            }
-            if()
-            // save the data
-            data.save(function(err){
-                if(err) {
-                    response = {"error" : true,"message" : "Error updating data"};
-                } else {
-                    response = {"error" : false,"message" : "Data is updated for "+req.params.id};
-                }
-                res.json(response);
-            })
-        }
-    });
-})
 
 /**
  * get a team by its id
