@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to
+ * rest module that provide rest functions to teams table
  */
 'use strict';
 
@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/team_db');
+var mongo = require('../model/products_db');
 
 /**
  * read all team
@@ -31,7 +31,7 @@ router.get('/', function(req, res) {
 
 })
 /**
- * post (put) new team
+ * post (create) new team
  */
 .post('/', function(req, res) {
 
@@ -41,12 +41,6 @@ router.get('/', function(req, res) {
         throw new Error('Post request has no parameters');
     }
     db.name = req.body.name;
-
-    db.session = req.body.session;
-
-    db.created = Date.now();
-
-    db.members = req.body.members;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -58,6 +52,41 @@ router.get('/', function(req, res) {
         res.send();
     });
 })
+/**
+ * put (update) new information team
+ */
+.put(function(req,res){
+    var response = {};
+    // first find out record exists or not
+    // if it does then update the record
+    mongoOp.findById(req.params.id,function(err,data){
+        if(err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else {
+            // we got data from Mongo.
+            // change it accordingly.
+            if(req.body.userEmail !== undefined) {
+                // case where email needs to be updated.
+                data.userEmail = req.body.userEmail;
+            }
+            if(req.body.userPassword !== undefined) {
+                // case where password needs to be updated
+                data.userPassword = req.body.userPassword;
+            }
+            if()
+            // save the data
+            data.save(function(err){
+                if(err) {
+                    response = {"error" : true,"message" : "Error updating data"};
+                } else {
+                    response = {"error" : false,"message" : "Data is updated for "+req.params.id};
+                }
+                res.json(response);
+            })
+        }
+    });
+})
+
 /**
  * get a team by its id
  */
@@ -79,7 +108,7 @@ router.get('/', function(req, res) {
             throw new Error(err);
         } else {
             mongo.remove({
-                name: req.params.id
+                _id: req.params.id
             }, function(err) {
                 if (err) {
                     throw new Error(err);

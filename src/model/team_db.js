@@ -1,5 +1,5 @@
 /**
- * http://usejsdoc.org/
+ * definition of team db
  */
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/RIB_DB');
@@ -13,5 +13,5 @@ var team = {
     'Members': []
 };
 // create model if not exists.
-module.exports = mongoose.model('team', team);
 
+module.exports = mongoose.model('team', team);
