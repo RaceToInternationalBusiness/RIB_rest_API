@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to teams table
+ * rest module that provide rest functions to products table
  */
 'use strict';
 
@@ -17,7 +17,7 @@ router.use(bodyParser.urlencoded({
 var mongo = require('../model/products_db');
 
 /**
- * read all team
+ * read all products
  */
 router.get('/', function(req, res) {
 
@@ -31,7 +31,7 @@ router.get('/', function(req, res) {
 
 })
 /**
- * post (create) new team
+ * post (create) new products
  */
 .post('/', function(req, res) {
 
@@ -52,9 +52,29 @@ router.get('/', function(req, res) {
         res.send();
     });
 })
-
 /**
- * get a team by its id
+ * put (update) products info
+ */
+.put('/:id', function(req, res) {
+    mongo.findById(req.params.id, function(err, data) {
+
+        if (err) {
+            throw new Error(err);
+        }else {
+            if (req.body.name  !== 'undefined') {
+                data.name = req.body.name;
+            }
+            data.save(function(err) {
+                if (err) {
+                    throw new Error(err);
+                }
+            });
+        }
+        res.json(data);
+    });
+})
+/**
+ * get a products by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -75,7 +95,7 @@ router.get('/', function(req, res) {
         } else {
             mongo.remove({
                 _id: req.params.id
-            }, function(err) {
+            },function(err) {
                 if (err) {
                     throw new Error(err);
                 }

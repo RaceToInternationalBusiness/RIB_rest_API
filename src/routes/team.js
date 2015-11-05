@@ -15,7 +15,11 @@ router.use(bodyParser.urlencoded({
  * mongodb module
  */
 var mongo = require('../model/team_db');
+// remove all entries for a mongo model
 
+// mongo.remove({}, function(err) {
+// console.log('collection removed');
+// });
 /**
  * read all team
  */
@@ -57,6 +61,61 @@ router.get('/', function(req, res) {
         res.status(200);
         res.send();
     });
+})
+/**
+ * put (update) team info
+ */
+.put('/:id', function(req, res) {
+    mongo.findById(req.params.id, function(err, data) {
+        if (err) {
+            throw new Error(err);
+        } else {
+            if (req.body.name  !== 'undefined') {
+                data.name = req.body.name;
+            }
+            if (req.body.session !== 'undefined') {
+                data.session = req.body.session;
+            }
+            if (req.body.created !== 'undefined') {
+                data.created = req.body.created;
+            }
+            if (req.body.membrers !== 'undefined') {
+                data.members = req.body.members;
+            }
+            data.save(function(err) {
+                if (err) {
+                    throw new Error(err);
+                }
+            });
+        }
+        res.json(data);
+    });
+})
+/**
+ * adding a membersto team
+ */
+.post('/:id/members', function(req, res) {
+    var member = {
+        firstname: '',
+        lastname: '',
+        email: ''
+    };
+    if (req.body.firstname  !== 'undefined') {
+        member.firstname = req.body.firstname;
+    }
+    if (req.body.lastname !== 'undefined') {
+        member.lastname = req.body.lastname;
+    }
+    if (req.body.email !== 'undefined') {
+        member.email = req.body.email;
+    }
+    mongo.findOneAndUpdate(req.params.id,
+            {$push: {members: member}},
+            {safe: true, upsert: true},
+            function(err, model) {
+                console.log(err);
+                res.json(model);
+            });
 })
 /**
  * get a team by its id

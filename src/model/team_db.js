@@ -4,13 +4,17 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/RIB_DB');
 // create instance of Schema
-//var mongoSchema = mongoose.Schema;
+// var mongoSchema = mongoose.Schema;
 // create schema
 var team = {
     'name': String,
     'session': String,
     'created': String,
-    'Members': []
+    'members': [{
+        'firstname': String,
+        'lastname': String,
+        'email': String
+    }]
 };
 // create model if not exists.
 
