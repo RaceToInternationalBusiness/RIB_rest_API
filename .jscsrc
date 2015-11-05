@@ -28,8 +28,13 @@
         "requireNewlineAfterDescription": true
     },
 
+    "requireCapitalizedConstructors": {
+        "allExcept": ["mongo"]
+    },
+
     "excludeFiles": [
         "test/data/**",
         "patterns/*"
     ]
 }
+

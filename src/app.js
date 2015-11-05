@@ -4,6 +4,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var api = require('./routes/api');
+var teams = require('./routes/team.js');
+var products = require('./routes/products.js');
 
 var app = express();
 
@@ -15,6 +17,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', api);
+app.use('/teams',teams);
+app.use('/products',products);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -49,3 +53,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+

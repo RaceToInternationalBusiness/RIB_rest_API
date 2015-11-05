@@ -13,6 +13,8 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     argv = require('yargs').argv;
 
+var usePlumber = true;
+
 var paths = {
     scripts_src: ['./src/**/*.js'],
     scripts_build: './build/js'
@@ -30,7 +32,7 @@ gulp.task('scripts', ['clean'], function() {
     // Minify and copy all JavaScript (except vendor scripts)
     // with sourcemaps all the way down
     return gulp.src(paths.scripts_src)
-        .pipe(plugins.plumber())
+        .pipe(plugins.gulpif(usePlumber, plugins.plumber()))
         .pipe(plugins.jshint())
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jshint.reporter('fail'))
@@ -48,7 +50,8 @@ gulp.task('run', ['scripts'], function() {
     plugins.env({
         vars: {
             NPM_CONFIG_LOGLEVEL: 'debug',
-            NODE_ENV: 'development'
+            NODE_ENV: 'development',
+            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB'
         }
     });
     plugins.express.run(['bin/www']);
@@ -63,7 +66,8 @@ gulp.task('default', ['watch', 'scripts']);
 
 gulp.task('build', ['scripts']);
 
-gulp.task('test', ['build'], function() {
-    //TODO run test
+gulp.task('test', function() {
+    usePlumber = false;
+    gulp.start('build');
 });
 
