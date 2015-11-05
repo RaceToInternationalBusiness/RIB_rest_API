@@ -50,7 +50,8 @@ gulp.task('run', ['scripts'], function() {
     plugins.env({
         vars: {
             NPM_CONFIG_LOGLEVEL: 'debug',
-            NODE_ENV: 'development'
+            NODE_ENV: 'development',
+            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB'
         }
     });
     plugins.express.run(['bin/www']);

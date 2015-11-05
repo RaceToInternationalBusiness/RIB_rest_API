@@ -1,0 +1,11 @@
+{
+  "name":"RIB_rest_API",
+  "description":"",
+  "scripts":{},
+  "env":{
+  },
+  "addons":[
+    "mongolab"
+  ]
+}
+
