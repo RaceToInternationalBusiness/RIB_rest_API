@@ -1,5 +1,5 @@
 /**
- * definition of product db
+ * New node file
  */
 var mongoose = require('mongoose');
 
@@ -12,13 +12,9 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // create instance of Schema
 // var mongoSchema = mongoose.Schema;
 // create schema
-var product = {
-    'name': String,
-    'price': Number,
-    'coefAd': Number,
-    'coefMerch': Number,
-    'delay': Number
+var market = {
+    'name': String
 };
 // create model if not exists.
 
-module.exports = mongoose.model('product', product);
+module.exports = mongoose.model('market', market);

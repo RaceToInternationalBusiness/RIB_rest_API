@@ -92,9 +92,9 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * adding a membersto team
+ * adding a members to team
  */
-.post('/:id/members', function(req, res) {
+.post('/:id/member', function(req, res) {
     var member = {
         firstname: '',
         lastname: '',

@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to products table
+ * rest module that provide rest functions to market table
  */
 'use strict';
 
@@ -46,10 +46,6 @@ router.get('/', function(req, res) {
         throw new Error('Post request has no parameters');
     }
     db.name = req.body.name;
-    db.price = req.body.price;
-    db.coefAd = req.body.coefAd;
-    db.coefMerch = req.body.coefMerch;
-    db.delay = req.body.delay;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -73,18 +69,6 @@ router.get('/', function(req, res) {
             if (req.body.name  !== 'undefined') {
                 data.name = req.body.name;
             }
-            if (req.body.price !== 'undefined') {
-                data.price = req.body.price;
-            }
-            if (req.body.coefAd !== 'undefined') {
-                data.coefAd = req.body.coefAd;
-            }
-            if (req.body.coefMerch !== 'undefined') {
-                data.coefMerch = req.body.coefMerch;
-            }
-            if (req.body.delay !== 'undefined') {
-                data.delay = req.body.delay;
-            }
             data.save(function(err) {
                 if (err) {
                     throw new Error(err);
@@ -107,7 +91,7 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * delete a product by its id
+ * delete a team by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
