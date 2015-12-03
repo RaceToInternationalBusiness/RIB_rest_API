@@ -87,9 +87,9 @@ router.get('/', function(req, res) {
  */
 .post('/:id/decision', function(req, res) {
     var member = {
-            firstname: '',
-            lastname: '',
-            email: ''
+        firstname: '',
+        lastname: '',
+        email: ''
     };
     if (req.body.firstname  !== 'undefined') {
         member.firstname = req.body.firstname;
