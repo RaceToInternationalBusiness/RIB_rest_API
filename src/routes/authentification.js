@@ -45,7 +45,6 @@ router.post('/', function(req, res) {
         throw new Error('Post request has no parameters');
     }
     db.login = req.body.login;
-    
     db.password = req.body.login;
 
     db.save(function(err) {
@@ -72,7 +71,7 @@ router.post('/', function(req, res) {
             if (req.body.password !== 'undefined') {
                 data.session = req.body.password;
             }
-            
+
             data.save(function(err) {
                 if (err) {
                     throw new Error(err);
