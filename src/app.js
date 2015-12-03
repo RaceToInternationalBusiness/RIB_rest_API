@@ -7,7 +7,7 @@ var api = require('./routes/api.js');
 var teams = require('./routes/team.js');
 var products = require('./routes/products.js');
 var decisions = require('./routes/decisions.js');
-
+var authentification = require('./routes/authentification.js');
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -21,6 +21,7 @@ app.use('/', api);
 app.use('/teams', teams);
 app.use('/products', products);
 app.use('/decisions', decisions);
+app.use('/authentification', authentification);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
