@@ -1,19 +1,19 @@
 language: node_js
 node_js:
-      - "iojs"
-      - "4.1"
-      - "4.0"
-      - "0.12"
-      - "0.11"
-      - "0.10"
-
+- iojs
+- '4.1'
+- '4.0'
+- '0.12'
+- '0.11'
+- '0.10'
 before_script:
-      - npm install
+- npm install
 script: gulp test
-
 matrix:
-      allow_failures:
-            - node_js: "0.12"
-            - node_js: "0.11"
-            - node_js: "0.10"
-
+  allow_failures:
+  - node_js: '0.12'
+  - node_js: '0.11'
+  - node_js: '0.10'
+notifications:
+  slack:
+    secure: hUgXXbdL8rceQZcM7OUiYDDnzUbYTqIYVn+/RDQjgivgPFhtfMOyTd+Mq6KUbcij7IVl/Nq1NaXrTLCabsb8EIvJhKU6epqxCDKQtM8fJr+VhlJzqkZ3uUpbAFtsu10reGpT57io+iybaC/WI0CRqTLeatAn/fOjA5pWu6osW6pSHVodSOqnFFxZRKPpgspubyj8SLTYU360nAf28jxJMAeMTnx74D/Htn7NEMANdQ8DvYKigoffeOApkEfCDiayWvSYnBA/vxrHf8HvkmjzVtUgIC79RDyz6jh/x7hGSM8NvzC0WiDm+HmFofqj7ukfK4ndSiG5jIVd//WKKZ8T8QmuYjvF63kp1wNr7Qf7Fvx+clol4ow+RNxlkECNBQ4QKagJ5X7REBRD99c72kb6V4auS47rdlDAXG37gA0sjTkFDgjUu9mFoY+weEEoUxC83BFU8K13ZkSdvszbQDeaAIX8Y8DJKmdSzy1RbXARtEJGK6XEblCktiVKTpk/WeN7GlP9U8BcVOIYX0d7jBWM3ViLHtXxYnw6J0fPiYHr/A1ZZ3Ggha/PMG8OPKjEJiLYFmo+nL0oES6SgacsPeJq1dW+0dOegJ6TyAdYKcGiKt+issk/RbCoJnqCywYcIU7jUjwnLcVTBzwevdYukbVyyIMAeHmj5ywPEUbhLSpKS+I=
