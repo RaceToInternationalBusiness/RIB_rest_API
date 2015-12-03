@@ -3,9 +3,10 @@ var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var api = require('./routes/api');
+var api = require('./routes/api.js');
 var teams = require('./routes/team.js');
 var products = require('./routes/products.js');
+var decisions = require('./routes/decisions.js');
 
 var app = express();
 
@@ -17,8 +18,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', api);
-app.use('/teams',teams);
-app.use('/products',products);
+app.use('/teams', teams);
+app.use('/products', products);
+app.use('/decisions', decisions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,4 +55,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
