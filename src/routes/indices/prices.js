@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../../model/indices/price_db.js');
+var mongo = require('../../model/indices/prices_db.js');
 // remove all entries for a mongo model
 
 // mongo.remove({}, function(err) {
