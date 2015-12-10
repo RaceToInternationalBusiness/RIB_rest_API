@@ -45,8 +45,8 @@ router.get('/', function(req, res) {
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.delay = req.body.rate;
-    db.index = req.body.products;
+    db.rate = req.body.rate;
+    db.products = req.body.products;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.

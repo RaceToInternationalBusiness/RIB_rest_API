@@ -45,7 +45,7 @@ router.get('/', function(req, res) {
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.delay = req.body.nbMerchandiser;
+    db.nbMerchandiser = req.body.nbMerchandiser;
     db.index = req.body.index;
 
     db.save(function(err) {

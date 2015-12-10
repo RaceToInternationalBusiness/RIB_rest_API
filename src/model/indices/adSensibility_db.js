@@ -13,7 +13,7 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // var mongoSchema = mongoose.Schema;
 // create schema
 var adsensibility = {
-    'price': String,
+    'rate': String,
     'products': {
         'name': String,
         'index': Number
