@@ -9,8 +9,8 @@ var api = require('./routes/api.js');
  */
 var merchandiser = require('./routes/indices/merchandiser.js');
 var paymentDelay = require('./routes/indices/paymentDelay.js');
-var price = require('./routes/indices/prices.js')
-var adsensibility = require('./routes/indices/adSensibility.js')
+var price = require('./routes/indices/prices.js');
+var adsensibility = require('./routes/indices/adSensibility.js');
 /**
  * game data
  */
