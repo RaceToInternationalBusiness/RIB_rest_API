@@ -4,6 +4,15 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var api = require('./routes/api.js');
+/**
+ * index data : price/payment delay/marchandiseurs/price sensibility
+ */
+
+var paymentDelay = require("./routes/indices/paymentDelay_db.js");
+
+/**
+ * game data
+ */
 var teams = require('./routes/team.js');
 var products = require('./routes/products.js');
 var decisions = require('./routes/decisions.js');
@@ -20,6 +29,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', api);
+
+app.use('/paymentdelay', paymentDelay);
+
 app.use('/teams', teams);
 app.use('/products', products);
 app.use('/decisions', decisions);
