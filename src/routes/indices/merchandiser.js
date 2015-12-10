@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../../model/indices/merchandiser.js');
+var mongo = require('../../model/indices/merchandiser_db.js');
 // remove all entries for a mongo model
 
 // mongo.remove({}, function(err) {
@@ -59,10 +59,10 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * put (update) delay index
+ * put (update) merchandiser index
  */
-.put('/:id', function(req, res) {
-    mongo.find({nbMerchandiser: req.body.nbMerchandiser}, function(err, data) {
+.put('/:nbMerchandiser', function(req, res) {
+    mongo.find({nbMerchandiser: req.param.nbMerchandiser}, function(err, data) {
         if (err) {
             throw new Error(err);
         } else {
@@ -82,7 +82,7 @@ router.get('/', function(req, res) {
 })
 
 /**
- * get an delay and index by its id
+ * get an merchandiser number and index by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -94,7 +94,7 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * delete an authentification by its id
+ * delete an mechandiser by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {

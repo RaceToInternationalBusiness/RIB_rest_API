@@ -46,7 +46,7 @@ var mongo = require('../../model/indices/paymentDelay_db.js');
         throw new Error('Post request has no parameters');
     }
     db.delay = req.body.delay;
-    db.index = req.body.indice;
+    db.index = req.body.index;
    
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -61,8 +61,8 @@ var mongo = require('../../model/indices/paymentDelay_db.js');
 /**
  * put (update) delay index
  */
-.put('/:id', function(req, res) {
-    mongo.find({delay: req.body.delay}, function(err, data) {
+.put('/:delay', function(req, res) {
+    mongo.find({delay: req.params.delay}, function(err, data) {
         if (err) {
             throw new Error(err);
         } else {

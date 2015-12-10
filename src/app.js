@@ -7,9 +7,10 @@ var api = require('./routes/api.js');
 /**
  * index data : price/payment delay/marchandiseurs/price sensibility
  */
-var merchandiser = require('./routes/indices/merchandiser_db.js');
-var paymentDelay = require('./routes/indices/paymentDelay_db.js');
-
+var merchandiser = require('./routes/indices/merchandiser.js');
+var paymentDelay = require('./routes/indices/paymentDelay.js');
+var price = require('./routes/indices/prices.js')
+var adsensibility = require('./routes/indices/adSensibility.js')
 /**
  * game data
  */
@@ -31,7 +32,9 @@ app.use(bodyParser.urlencoded({
 app.use('/', api);
 
 app.use('/merchandiser', merchandiser);
+app.use('/price', price);
 app.use('/paymentdelay', paymentDelay);
+app.use('/adsensibility', adsensibility);
 
 app.use('/teams', teams);
 app.use('/products', products);
