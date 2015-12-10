@@ -13,7 +13,7 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // var mongoSchema = mongoose.Schema;
 // create schema
 var prices = {
-    'price': String,
+    'price': Number,
     'products': {
         'name': String,
         'index': Number
