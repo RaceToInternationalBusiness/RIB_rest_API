@@ -23,18 +23,18 @@ var mongo = require('../../model/indices/paymentDelay_db.js');
 /**
  * read all payment delay
  */
- router.get('/', function(req, res) {
+router.get('/', function(req, res) {
 
- mongo.find({}, function(err, data) {
- // Mongo command to fetch all data from collection.
-     if (err) {
-         res.send(err);
-     }
-     res.json(data);
- });
+    mongo.find({}, function(err, data) {
+        // Mongo command to fetch all data from collection.
+        if (err) {
+            res.send(err);
+        }
+        res.json(data);
+    });
 
- })
- 
+})
+
 /**
  * post (put) new delai payment with index
  */
@@ -47,7 +47,7 @@ var mongo = require('../../model/indices/paymentDelay_db.js');
     }
     db.delay = req.body.delay;
     db.index = req.body.index;
-   
+
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
         // it will add new data in collection.
@@ -66,7 +66,7 @@ var mongo = require('../../model/indices/paymentDelay_db.js');
         if (err) {
             throw new Error(err);
         } else {
-           
+
             if (req.body.index !== 'undefined') {
                 data.index = req.body.index;
             }
