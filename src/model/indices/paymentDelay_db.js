@@ -18,4 +18,4 @@ var paymentDelay = {
 };
 // create model if not exists.
 
-module.exports = mongoose.model('delaiPayment', paymentDelay);
+module.exports = mongoose.model('paymentDelay', paymentDelay);

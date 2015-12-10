@@ -12,10 +12,10 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // create instance of Schema
 // var mongoSchema = mongoose.Schema;
 // create schema
-var paymentDelay = {
+var merchandiser = {
     'nbMerchandiser': Number,
     'index': Number
 };
 // create model if not exists.
 
-module.exports = mongoose.model('delaiPayment', paymentDelay);
+module.exports = mongoose.model('merchandiser', merchandiser);
