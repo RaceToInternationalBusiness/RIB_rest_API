@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "gulp build --prod"
+    "postinstall": "gulp build --prod",
+    "test": "gulp test"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -25,9 +26,17 @@
     "jshint-stylish": "^2.0.1",
     "mongoose": "^4.2.3",
     "morgan": "~1.6.1",
+    "run-sequence": "^1.1.5",
     "yargs": "^3.27.0"
   },
   "devDependencies": {
-    "gulp-express": "^0.3.5"
+    "gulp-express": "^0.3.5",
+    "gulp-mocha": "^2.2.0",
+    "gulp-wait": "0.0.2",
+    "kerberos": "0.0.17",
+    "mocha": "^2.3.4",
+    "mongodb-core": "^1.2.26",
+    "should": "^8.0.1",
+    "supertest": "^1.1.0"
   }
 }
