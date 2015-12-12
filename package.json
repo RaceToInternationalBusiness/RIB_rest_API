@@ -13,8 +13,6 @@
     "del": "^2.0.2",
     "express": "~4.13.1",
     "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-env": "^0.2.0",
     "gulp-if": "^2.0.0",
     "gulp-jscs": "^3.0.1",
     "gulp-jshint": "^1.11.2",
@@ -30,6 +28,8 @@
     "yargs": "^3.27.0"
   },
   "devDependencies": {
+    "gulp-concat": "^2.6.0",
+    "gulp-env": "^0.2.0",
     "gulp-express": "^0.3.5",
     "gulp-mocha": "^2.2.0",
     "gulp-wait": "0.0.2",
@@ -40,3 +40,4 @@
     "supertest": "^1.1.0"
   }
 }
+
