@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "gulp build --prod",
+    "pretest": "mkdir -p ./data",
     "test": "gulp test"
   },
   "dependencies": {
@@ -24,7 +25,6 @@
     "jshint-stylish": "^2.0.1",
     "mongoose": "^4.2.3",
     "morgan": "~1.6.1",
-    "run-sequence": "^1.1.5",
     "yargs": "^3.27.0"
   },
   "devDependencies": {
@@ -36,6 +36,7 @@
     "kerberos": "0.0.17",
     "mocha": "^2.3.4",
     "mongodb-core": "^1.2.26",
+    "run-sequence": "^1.1.5",
     "should": "^8.0.1",
     "supertest": "^1.1.0"
   }

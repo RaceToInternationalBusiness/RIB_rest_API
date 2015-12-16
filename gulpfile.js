@@ -11,8 +11,7 @@ var gulp = require('gulp'),
     }),
 
     plumber = require('gulp-plumber'),
-    argv = require('yargs').argv,
-    runSequence = require('run-sequence').use(gulp);
+    argv = require('yargs').argv;
 
 var usePlumber = true;
 
@@ -88,6 +87,8 @@ gulp.task('default', ['watch', 'scripts']);
 gulp.task('build', ['scripts']);
 
 gulp.task('test', function() {
+
+    var runSequence = require('run-sequence').use(gulp);
     return runSequence(['run', 'start-mongo'], 'run-test', ['stop', 'stop-mongo']);
 });
 
