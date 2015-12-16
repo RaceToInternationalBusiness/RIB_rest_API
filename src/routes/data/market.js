@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/products_db');
+var mongo = require('../../model/products_db');
 
 // remove all entries for a mongo model
 // mongo.remove({}, function(err) {

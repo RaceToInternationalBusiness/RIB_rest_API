@@ -62,7 +62,8 @@ router.get('/', function(req, res) {
  * put (update) merchandiser index
  */
 .put('/:nbMerchandiser', function(req, res) {
-    mongo.find({nbMerchandiser: req.param.nbMerchandiser}, function(err, data) {
+    mongo.find({'nbMerchandiser': req.param.nbMerchandiser}, function(err, data) {
+        console.log(data);
         if (err) {
             throw new Error(err);
         } else {
@@ -70,7 +71,7 @@ router.get('/', function(req, res) {
             if (req.body.index !== 'undefined') {
                 data.index = req.body.index;
             }
-
+            console.log(data);
             data.save(function(err) {
                 if (err) {
                     throw new Error(err);

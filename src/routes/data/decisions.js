@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to
+ * rest module that provide rest functions for decisions module
  */
 'use strict';
 
@@ -14,14 +14,14 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/team_db');
+var mongo = require('../../model/decisions_db');
 // remove all entries for a mongo model
 
 // mongo.remove({}, function(err) {
 // console.log('collection removed');
 // });
 /**
- * read all team
+ * read all decisions
  */
 router.get('/', function(req, res) {
 
@@ -35,7 +35,7 @@ router.get('/', function(req, res) {
 
 })
 /**
- * post (put) new team
+ * post (put) new decisions
  */
 .post('/', function(req, res) {
 
@@ -44,13 +44,9 @@ router.get('/', function(req, res) {
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.name = req.body.name;
+    db.teamId = req.body.teamId;
 
-    db.session = req.body.session;
-
-    db.created = Date.now();
-
-    db.members = req.body.members;
+    db.decisions = req.body.decisions;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -63,25 +59,20 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * put (update) team info
+ * put (update) decisions info
  */
 .put('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
         if (err) {
             throw new Error(err);
         } else {
-            if (req.body.name  !== 'undefined') {
-                data.name = req.body.name;
+            if (req.body.teamId !== 'undefined') {
+                data.teamId = req.body.decisions;
             }
-            if (req.body.session !== 'undefined') {
-                data.session = req.body.session;
+            if (req.body.decisions !== 'undefined') {
+                data.decisions = req.body.decisions;
             }
-            if (req.body.created !== 'undefined') {
-                data.created = req.body.created;
-            }
-            if (req.body.membrers !== 'undefined') {
-                data.members = req.body.members;
-            }
+
             data.save(function(err) {
                 if (err) {
                     throw new Error(err);
@@ -92,9 +83,9 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * adding a members to team
+ * adding a decision to decisions
  */
-.post('/:id/member', function(req, res) {
+.post('/:id/decision', function(req, res) {
     var member = {
         firstname: '',
         lastname: '',
@@ -118,7 +109,19 @@ router.get('/', function(req, res) {
             });
 })
 /**
- * get a team by its id
+ * get a decision by its id
+ */
+.get('/:id', function(req, res) {
+    mongo.findById(req.params.id, function(err, data) {
+
+        if (err) {
+            throw new Error(err);
+        }
+        res.json(data.decisions);
+    });
+})
+/**
+ * get a decisions by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -129,22 +132,22 @@ router.get('/', function(req, res) {
         res.json(data);
     });
 })
-/**
- * delete a team by its id
- */
-.delete('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
+
+.get('/decision/:year', function(req, res) {
+    mongo.find({'decisions.year': req.params.year}, 'decisions.$.productDecisions',function(err, data) {
         if (err) {
             throw new Error(err);
-        } else {
-            mongo.remove({
-                name: req.params.id
-            }, function(err) {
-                if (err) {
-                    throw new Error(err);
-                }
-                res.json(data);
-            });
+        }
+        res.json(data);
+    });
+})
+/**
+ * delete a by its id
+ */
+.delete('/:id', function(req, res) {
+    mongo.findById({'_id': req.params.id}, function(err, data) {
+        if (err) {
+            res.send(err);
         }
     });
 });

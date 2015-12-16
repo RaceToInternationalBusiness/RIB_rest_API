@@ -14,7 +14,8 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // create schema
 var authentification = {
     'login': String,
-    'password': String
+    'password': String,
+    'isAdmin': Boolean
 };
 // create model if not exists.
 

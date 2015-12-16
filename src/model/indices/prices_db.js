@@ -14,10 +14,10 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // create schema
 var prices = {
     'price': Number,
-    'products': {
+    'products': [{
         'name': String,
         'index': Number
-    }
+    }]
 };
 // create model if not exists.
 

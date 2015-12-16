@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to
+ * rest module that provide rest functions to products table
  */
 'use strict';
 
@@ -14,38 +14,42 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/authentification_db.js');
-// remove all entries for a mongo model
+var mongo = require('../../model/products_db');
 
+// remove all entries for a mongo model
 // mongo.remove({}, function(err) {
 // console.log('collection removed');
 // });
+
 /**
- * read all team
+ * read all products
  */
-// router.get('/', function(req, res) {
-//
-// mongo.find({}, function(err, data) {
-// // Mongo command to fetch all data from collection.
-// if (err) {
-// res.send(err);
-// }
-// res.json(data);
-// });
-//
-// })
+router.get('/', function(req, res) {
+
+    mongo.find({}, function(err, data) {
+        // Mongo command to fetch all data from collection.
+        if (err) {
+            res.send(err);
+        }
+        res.json(data);
+    });
+
+})
 /**
- * post (put) new authentification
+ * post (create) new products
  */
-router.post('/', function(req, res) {
+.post('/', function(req, res) {
 
     var db = new mongo();
 
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.login = req.body.login;
-    db.password = req.body.login;
+    db.name = req.body.name;
+    db.price = req.body.price;
+    db.coefAd = req.body.coefAd;
+    db.coefMerch = req.body.coefMerch;
+    db.delay = req.body.delay;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -58,20 +62,29 @@ router.post('/', function(req, res) {
     });
 })
 /**
- * put (update) authentification
+ * put (update) products info
  */
 .put('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
+
         if (err) {
             throw new Error(err);
-        } else {
-            if (req.body.login  !== 'undefined') {
-                data.name = req.body.login;
+        }else {
+            if (req.body.name  !== 'undefined') {
+                data.name = req.body.name;
             }
-            if (req.body.password !== 'undefined') {
-                data.session = req.body.password;
+            if (req.body.price !== 'undefined') {
+                data.price = req.body.price;
             }
-
+            if (req.body.coefAd !== 'undefined') {
+                data.coefAd = req.body.coefAd;
+            }
+            if (req.body.coefMerch !== 'undefined') {
+                data.coefMerch = req.body.coefMerch;
+            }
+            if (req.body.delay !== 'undefined') {
+                data.delay = req.body.delay;
+            }
             data.save(function(err) {
                 if (err) {
                     throw new Error(err);
@@ -81,9 +94,8 @@ router.post('/', function(req, res) {
         res.json(data);
     });
 })
-
 /**
- * get a authentification by its id
+ * get a products by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -95,7 +107,7 @@ router.post('/', function(req, res) {
     });
 })
 /**
- * delete an authentification by its id
+ * delete a product by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -103,8 +115,8 @@ router.post('/', function(req, res) {
             throw new Error(err);
         } else {
             mongo.remove({
-                name: req.params.id
-            }, function(err) {
+                _id: req.params.id
+            },function(err) {
                 if (err) {
                     throw new Error(err);
                 }

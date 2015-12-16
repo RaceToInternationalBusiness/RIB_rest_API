@@ -14,11 +14,11 @@ var adsensibility = require('./routes/indices/adSensibility.js');
 /**
  * game data
  */
-var teams = require('./routes/team.js');
-var products = require('./routes/products.js');
-var decisions = require('./routes/decisions.js');
-var authentification = require('./routes/authentification.js');
-var sessions = require('./routes/sessions.js');
+var teams = require('./routes/data/team.js');
+var products = require('./routes/data/products.js');
+var decisions = require('./routes/data/decisions.js');
+var authentification = require('./routes/data/authentification.js');
+var sessions = require('./routes/data/sessions.js');
 
 var app = express();
 

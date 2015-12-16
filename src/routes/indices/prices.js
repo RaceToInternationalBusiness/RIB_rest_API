@@ -63,6 +63,7 @@ router.get('/', function(req, res) {
  */
 .put('/:price', function(req, res) {
     mongo.find({price: req.params.price}, function(err, data) {
+        console.log(data);
         if (err) {
             throw new Error(err);
         } else {

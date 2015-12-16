@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to products table
+ * rest module that provide rest functions to
  */
 'use strict';
 
@@ -14,15 +14,14 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/products_db');
-
+var mongo = require('../../model/authentification_db.js');
 // remove all entries for a mongo model
+
 // mongo.remove({}, function(err) {
 // console.log('collection removed');
 // });
-
 /**
- * read all products
+ * read all authentification !! remove it or comment it
  */
 router.get('/', function(req, res) {
 
@@ -34,22 +33,20 @@ router.get('/', function(req, res) {
         res.json(data);
     });
 
-})
+});
 /**
- * post (create) new products
+ * post (put) new authentification
  */
-.post('/', function(req, res) {
+router.post('/', function(req, res) {
 
     var db = new mongo();
 
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.name = req.body.name;
-    db.price = req.body.price;
-    db.coefAd = req.body.coefAd;
-    db.coefMerch = req.body.coefMerch;
-    db.delay = req.body.delay;
+    db.login = req.body.login;
+    db.password = req.body.password;
+    db.isAdmin = req.body.isAdmin;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -62,29 +59,24 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * put (update) products info
+ * put (update) authentification
  */
 .put('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
-
+        console.log(data);
         if (err) {
             throw new Error(err);
-        }else {
-            if (req.body.name  !== 'undefined') {
-                data.name = req.body.name;
+        } else {
+            if (req.body.login  !== 'undefined') {
+                data.name = req.body.login;
             }
-            if (req.body.price !== 'undefined') {
-                data.price = req.body.price;
+            if (req.body.password !== 'undefined') {
+                data.session = req.body.password;
             }
-            if (req.body.coefAd !== 'undefined') {
-                data.coefAd = req.body.coefAd;
+            if (req.body.isAdmin !== 'undefined') {
+                data.isAdmin = req.body.isAdmin;
             }
-            if (req.body.coefMerch !== 'undefined') {
-                data.coefMerch = req.body.coefMerch;
-            }
-            if (req.body.delay !== 'undefined') {
-                data.delay = req.body.delay;
-            }
+
             data.save(function(err) {
                 if (err) {
                     throw new Error(err);
@@ -94,12 +86,12 @@ router.get('/', function(req, res) {
         res.json(data);
     });
 })
+
 /**
- * get a products by its id
+ * get a authentification by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
-
         if (err) {
             throw new Error(err);
         }
@@ -107,7 +99,7 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * delete a product by its id
+ * delete an authentification by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -115,8 +107,8 @@ router.get('/', function(req, res) {
             throw new Error(err);
         } else {
             mongo.remove({
-                _id: req.params.id
-            },function(err) {
+                name: req.params.id
+            }, function(err) {
                 if (err) {
                     throw new Error(err);
                 }
@@ -124,6 +116,34 @@ router.get('/', function(req, res) {
             });
         }
     });
+})
+/**
+ * Authentification function that check the login/password
+ */
+.post('/authentificate', function(req, res) {
+    if (req.body.login !== '' && req.body.password !== '') {
+        mongo.find({login: 'david'},function(err, data) {
+            var reponse = {};
+            if (err) {
+                throw new Error(err);
+            } else if (data.length !== 0) {
+                console.log(data[0].password);
+                if (data[0].password === req.body.password) {
+                    reponse.authenticated = true;
+                    reponse.isAdmin = data[0].isAdmin;
+                    res.json(reponse);
+                } else {
+                    reponse.authenticated = false;
+                    reponse.isAdmin = false;
+                    res.json(reponse);
+                }
+            } else {
+                reponse.authenticated = false;
+                reponse.isAdmin = false;
+                res.json(reponse);
+            }
+        });
+    }
 });
 
 router.use(function(req, res, next) {
