@@ -122,12 +122,11 @@ router.post('/', function(req, res) {
  */
 .post('/authentificate', function(req, res) {
     if (req.body.login !== '' && req.body.password !== '') {
-        mongo.find({login: 'david'},function(err, data) {
+        mongo.find({login: req.body.login},function(err, data) {
             var reponse = {};
             if (err) {
                 throw new Error(err);
             } else if (data.length !== 0) {
-                console.log(data[0].password);
                 if (data[0].password === req.body.password) {
                     reponse.authenticated = true;
                     reponse.isAdmin = data[0].isAdmin;
