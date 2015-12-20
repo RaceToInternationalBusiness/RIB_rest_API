@@ -86,10 +86,18 @@ gulp.task('default', ['watch', 'scripts']);
 
 gulp.task('build', ['scripts']);
 
-gulp.task('test', function() {
-
+gulp.task('test', function(cb) {
+    usePlumber = false;
     var runSequence = require('run-sequence').use(gulp);
-    return runSequence(['run', 'start-mongo'], 'run-test', ['stop', 'stop-mongo']);
+    return runSequence(['run', 'start-mongo'], 'run-test', ['stop', 'stop-mongo'], function(err) {
+        if (err) {
+            gulp.start('stop');
+            gulp.start('stop-mongo');
+            return process.exit(2);
+        } else {
+            return cb();
+        }
+    });
 });
 
 gulp.task('run-test', function() {
@@ -97,6 +105,11 @@ gulp.task('run-test', function() {
 
     return gulp.src(paths.scripts_test, {read: false})
         .pipe(plugins.wait(500))
-        .pipe(plugins.mocha());
+        .pipe(plugins.mocha({
+            reporter: 'spec',
+            globals: {
+                should: require('should')
+            }
+        }));
 });
 
