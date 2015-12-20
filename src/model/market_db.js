@@ -13,7 +13,15 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // var mongoSchema = mongoose.Schema;
 // create schema
 var market = {
-    'name': String
+    'name': String,
+    'paymentDelay': [{
+        'index': Number,
+        'delay': String
+    }],
+    'merchandiser': [{
+        'nbMerchandiser': Number,
+        'index': Number
+    }]
 };
 // create model if not exists.
 

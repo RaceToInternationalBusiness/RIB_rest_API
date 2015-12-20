@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../../model/products_db');
+var mongo = require('../../model/market_db');
 
 // remove all entries for a mongo model
 // mongo.remove({}, function(err) {
@@ -38,77 +38,79 @@ router.get('/', function(req, res) {
 /**
  * post (create) new products
  */
-.post('/', function(req, res) {
+    .post('/', function(req, res) {
 
-    var db = new mongo();
+        var db = new mongo();
 
-    if (JSON.stringify(req.body) === '{}') {
-        throw new Error('Post request has no parameters');
-    }
-    db.name = req.body.name;
-
-    db.save(function(err) {
-        // save() will run insert() command of MongoDB.
-        // it will add new data in collection.
-        if (err) {
-            throw new Error(err);
+        if (JSON.stringify(req.body) === '{}') {
+            throw new Error('Post request has no parameters');
         }
-        res.status(200);
-        res.send();
-    });
-})
+        db.name = req.body.name;
+        db.paymentDelay = req.body.paymentDelay;
+        db.merchandiser = req.body.merchandiser;
+
+        db.save(function(err) {
+            // save() will run insert() command of MongoDB.
+            // it will add new data in collection.
+            if (err) {
+                throw new Error(err);
+            }
+            res.status(200);
+            res.send({_id: db._id});
+        });
+    })
 /**
  * put (update) products info
  */
-.put('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
+    .put('/:id', function(req, res) {
+        mongo.findById(req.params.id, function(err, data) {
 
-        if (err) {
-            throw new Error(err);
-        }else {
-            if (req.body.name  !== 'undefined') {
-                data.name = req.body.name;
-            }
-            data.save(function(err) {
-                if (err) {
-                    throw new Error(err);
+            if (err) {
+                throw new Error(err);
+            }else {
+                if (req.body.name  !== 'undefined') {
+                    data.name = req.body.name;
                 }
-            });
-        }
-        res.json(data);
-    });
-})
+                data.save(function(err) {
+                    if (err) {
+                        throw new Error(err);
+                    }
+                });
+            }
+            res.json(data);
+        });
+    })
 /**
  * get a products by its id
  */
-.get('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
+    .get('/:id', function(req, res) {
+        mongo.findById(req.params.id, function(err, data) {
 
-        if (err) {
-            throw new Error(err);
-        }
-        res.json(data);
-    });
-})
+            if (err) {
+                throw new Error(err);
+            }
+            res.json(data);
+        });
+    })
 /**
  * delete a team by its id
  */
-.delete('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
-        if (err) {
-            throw new Error(err);
-        } else {
-            mongo.remove({
-                _id: req.params.id
-            },function(err) {
-                if (err) {
-                    throw new Error(err);
-                }
-                res.json(data);
-            });
-        }
+    .delete('/:id', function(req, res) {
+        mongo.findById(req.params.id, function(err, data) {
+            if (err) {
+                throw new Error(err);
+            } else {
+                mongo.remove({
+                    _id: req.params.id
+                },function(err) {
+                    if (err) {
+                        throw new Error(err);
+                    }
+                    res.json(data);
+                });
+            }
+        });
     });
-});
 
 router.use(function(req, res, next) {
     var err = new Error('Not Found');

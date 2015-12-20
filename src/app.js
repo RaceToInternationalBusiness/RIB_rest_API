@@ -14,6 +14,7 @@ var adsensibility = require('./routes/indices/adSensibility.js');
 /**
  * game data
  */
+var market = require('./routes/data/market');
 var teams = require('./routes/data/team.js');
 var products = require('./routes/data/products.js');
 var decisions = require('./routes/data/decisions.js');
@@ -36,6 +37,7 @@ app.use('/price', price);
 app.use('/paymentdelay', paymentDelay);
 app.use('/adsensibility', adsensibility);
 
+app.use('/market', market);
 app.use('/teams', teams);
 app.use('/products', products);
 app.use('/decisions', decisions);
