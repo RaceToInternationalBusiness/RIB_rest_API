@@ -220,8 +220,8 @@ describe('Market rest', function() {
                 storedMerchandiser[0].index = 2.5;
                 storedMerchandiser[0].nbMerchandiser = 8;
                 storedMerchandiser[3].nbMerchandiser = 42;
-                storedMerchandiser.push({index:0.25, nbMerchandiser:6})
-                storedMerchandiser.push({index:1.25, nbMerchandiser:7})
+                storedMerchandiser.push({index:0.25, nbMerchandiser:6});
+                storedMerchandiser.push({index:1.25, nbMerchandiser:7});
 
                 server.put("/market/" + myMarketId)
                     .send({merchandiser: storedMerchandiser})
@@ -387,8 +387,8 @@ describe('Market rest', function() {
                 storedPaymentDelay[0].index = 0.5;
                 storedPaymentDelay[0].delay = "28j";
                 storedPaymentDelay[3].delay = "35j";
-                storedPaymentDelay.push({index:0.25, delay:"29j"})
-                storedPaymentDelay.push({index:1.25, delay:"15j"})
+                storedPaymentDelay.push({index:0.25, delay:"29j"});
+                storedPaymentDelay.push({index:1.25, delay:"15j"});
 
                 server.put("/market/" + myMarketId)
                     .send({paymentDelay: storedPaymentDelay})
@@ -399,6 +399,52 @@ describe('Market rest', function() {
                     })
                     .expect(function () {
                         myMarket.name = "editedMarket";
+                    })
+                    .expect("Content-type", /json/)
+                    .expect(200, done)
+                    .expect(function (res) {
+                        res.body.should.have.property('paymentDelay');
+                        removeId(res.body.paymentDelay);
+                        res.body.should.have.property('merchandiser');
+                        removeId(res.body.merchandiser);
+                    })
+                    .expect(function (res) {
+                        res.body.should.have.property('_id').equal(myMarketId);
+                        res.body.should.have.property('name').equal(myMarket.name);
+                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                    }, done);
+            });
+    });
+
+    it("should mixed edit myMarket", function(done) {
+        var storedPaymentDelay;
+        var storedMerchandiser;
+        var newName = 'finalEdit market'
+        server.get("/market/" + myMarketId)
+            .end(function (err, res) {
+                storedPaymentDelay = res.body.paymentDelay;
+                storedPaymentDelay[0].index = 1.2;
+                storedPaymentDelay[0].delay = "2j";
+                storedPaymentDelay[3].delay = "3j";
+                storedPaymentDelay.push({index:25, delay:"100j"});
+                storedPaymentDelay.push({index:125, delay:"8j"});
+
+                storedMerchandiser = res.body.merchandiser;
+                storedMerchandiser[0].index = 42;
+                storedMerchandiser[0].nbMerchandiser = 62;
+                storedMerchandiser[3].nbMerchandiser = 33;
+                storedMerchandiser.push({index:0.01, nbMerchandiser:1});
+                storedMerchandiser.push({index:3, nbMerchandiser:9});
+
+                server.put("/market/" + myMarketId)
+                    .send({name: newName, paymentDelay: storedPaymentDelay, merchandiser: storedMerchandiser})
+                    .expect(function () {
+                        myMarket.name = newName;
+                        myMarket.paymentDelay = storedPaymentDelay;
+                        myMarket.merchandiser = storedMerchandiser;
+                        removeId(myMarket.merchandiser);
+                        removeId(myMarket.paymentDelay);
                     })
                     .expect("Content-type", /json/)
                     .expect(200, done)
