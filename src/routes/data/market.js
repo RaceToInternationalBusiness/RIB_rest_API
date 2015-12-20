@@ -73,24 +73,39 @@ router.get('/', function(req, res) {
                 data.name = req.body.name;
             }
 
+            var update = function(scope, element) {
+                if (element._id !== undefined) {
+                    var elementIndex = data[scope].findIndex(function(e) {
+                        return String(e._id) === String(element._id);
+                    });
+                    if (elementIndex !== -1) {
+                        Object.assign(data[scope][elementIndex], element);
+
+                    }
+                } else {
+                    data[scope].push(element);
+                }
+            };
+
             if (req.body.merchandiser !== undefined) {
                 var updateMerchandiser = function(merchandiser) {
-                    if (merchandiser._id !== undefined) {
-                        var merchandiserIndex = data.merchandiser.findIndex(function(m) {
-                            return String(m._id) === String(merchandiser._id);
-                        });
-                        if (merchandiserIndex !== -1) {
-                            Object.assign(data.merchandiser[merchandiserIndex], merchandiser);
-
-                        }
-                    } else {
-                        data.merchandiser.push(merchandiser);
-                    }
+                    update('merchandiser', merchandiser);
                 };
                 if (Array.isArray(req.body.merchandiser)) {
                     req.body.merchandiser.forEach(updateMerchandiser);
                 } else {
                     updateMerchandiser(req.body.merchandiser);
+                }
+            }
+
+            if (req.body.paymentDelay !== undefined) {
+                var updatePaymentDelay = function(paymentDelay) {
+                    update('paymentDelay', paymentDelay);
+                };
+                if (Array.isArray(req.body.paymentDelay)) {
+                    req.body.paymentDelay.forEach(updatePaymentDelay);
+                } else {
+                    updatePaymentDelay(req.body.paymentDelay);
                 }
             }
 
