@@ -67,16 +67,39 @@ router.get('/', function(req, res) {
 
             if (err) {
                 throw new Error(err);
-            }else {
-                if (req.body.name  !== 'undefined') {
-                    data.name = req.body.name;
-                }
-                data.save(function(err) {
-                    if (err) {
-                        throw new Error(err);
-                    }
-                });
             }
+
+            if (req.body.name  !== undefined) {
+                data.name = req.body.name;
+            }
+
+            if (req.body.merchandiser !== undefined) {
+                var updateMerchandiser = function(merchandiser) {
+                    if (merchandiser._id !== undefined) {
+                        var merchandiserIndex = data.merchandiser.findIndex(function(m) {
+                            return String(m._id) === String(merchandiser._id);
+                        });
+                        if (merchandiserIndex !== -1) {
+                            Object.assign(data.merchandiser[merchandiserIndex], merchandiser);
+
+                        }
+                    } else {
+                        data.merchandiser.push(merchandiser);
+                    }
+                };
+                if (Array.isArray(req.body.merchandiser)) {
+                    req.body.merchandiser.forEach(updateMerchandiser);
+                } else {
+                    updateMerchandiser(req.body.merchandiser);
+                }
+            }
+
+            data.save(function(err) {
+                if (err) {
+                    throw new Error(err);
+                }
+            });
+
             res.json(data);
         });
     })
