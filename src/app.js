@@ -4,13 +4,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var api = require('./routes/api.js');
-/**
- * index data : price/payment delay/marchandiseurs/price sensibility
- */
-var merchandiser = require('./routes/indices/merchandiser.js');
-var paymentDelay = require('./routes/indices/paymentDelay.js');
-var price = require('./routes/indices/prices.js');
-var adsensibility = require('./routes/indices/adSensibility.js');
+
 /**
  * game data
  */
@@ -33,14 +27,9 @@ app.use(bodyParser.urlencoded({
 
 app.use('/', api);
 
-app.use('/merchandiser', merchandiser);
-app.use('/price', price);
-app.use('/paymentdelay', paymentDelay);
-app.use('/adsensibility', adsensibility);
-
-app.use('/market', market);
+app.use('/', market);
+app.use('/', products);
 app.use('/teams', teams);
-app.use('/products', products);
 app.use('/decisions', decisions);
 app.use('/authentification', authentification);
 app.use('/sessions', sessions);
@@ -79,3 +68,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+

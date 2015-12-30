@@ -24,9 +24,9 @@ var mongo = require('../../model/products_db');
 /**
  * read all products
  */
-router.get('/', function(req, res) {
+router.get('/market/:marketId/products', function(req, res, next) {
 
-    mongo.find({}, function(err, data) {
+    mongo.find({market: req.params.marketId}, function(err, data) {
         // Mongo command to fetch all data from collection.
         if (err) {
             res.send(err);
@@ -34,17 +34,18 @@ router.get('/', function(req, res) {
         res.json(data);
     });
 
-})
+});
 /**
  * post (create) new products
  */
-.post('/', function(req, res) {
+router.post('/market/:marketId/product', function(req, res, next) {
 
     var db = new mongo();
 
     if (JSON.stringify(req.body) === '{}') {
-        throw new Error('Post request has no parameters');
+        return next(new Error('Post request has no parameters'));
     }
+    db.market = req.params.marketId;
     db.name = req.body.name;
     db.price = req.body.price;
     db.coefAd = req.body.coefAd;
@@ -55,53 +56,63 @@ router.get('/', function(req, res) {
         // save() will run insert() command of MongoDB.
         // it will add new data in collection.
         if (err) {
-            throw new Error(err);
+            return next(err);
         }
         res.status(200);
-        res.send();
+        res.send({_id: db._id});
     });
-})
+});
 /**
  * put (update) products info
  */
-.put('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
+router.route('/market/:marketId/product/:productId')
+.put(function(req, res, next) {
+    mongo.findOne({_id: req.params.productId, market: req.params.marketId}, function(err, data) {
 
         if (err) {
-            throw new Error(err);
-        }else {
-            if (req.body.name  !== 'undefined') {
-                data.name = req.body.name;
-            }
-            if (req.body.price !== 'undefined') {
-                data.price = req.body.price;
-            }
-            if (req.body.coefAd !== 'undefined') {
-                data.coefAd = req.body.coefAd;
-            }
-            if (req.body.coefMerch !== 'undefined') {
-                data.coefMerch = req.body.coefMerch;
-            }
-            if (req.body.delay !== 'undefined') {
-                data.delay = req.body.delay;
-            }
-            data.save(function(err) {
-                if (err) {
-                    throw new Error(err);
-                }
-            });
+            return next(err);
         }
+        if (data === null) {
+            var notFound = new Error('Product not Found');
+            notFound.status = 404;
+            return next(notFound);
+        }
+        if (req.body.name  !== 'undefined') {
+            data.name = req.body.name;
+        }
+        if (req.body.price !== 'undefined') {
+            data.price = req.body.price;
+        }
+        if (req.body.coefAd !== 'undefined') {
+            data.coefAd = req.body.coefAd;
+        }
+        if (req.body.coefMerch !== 'undefined') {
+            data.coefMerch = req.body.coefMerch;
+        }
+        if (req.body.delay !== 'undefined') {
+            data.delay = req.body.delay;
+        }
+        data.save(function(err) {
+            if (err) {
+                throw new Error(err);
+            }
+        });
+
         res.json(data);
     });
 })
 /**
  * get a products by its id
  */
-.get('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
-
+.get(function(req, res, next) {
+    mongo.findOne({_id: req.params.productId, market: req.params.marketId}, function(err, data) {
         if (err) {
-            throw new Error(err);
+            return next(err);
+        }
+        if (data === null) {
+            var notFound = new Error('Product not Found');
+            notFound.status = 404;
+            return next(notFound);
         }
         res.json(data);
     });
@@ -109,27 +120,27 @@ router.get('/', function(req, res) {
 /**
  * delete a product by its id
  */
-.delete('/:id', function(req, res) {
-    mongo.findById(req.params.id, function(err, data) {
+.delete(function(req, res, next) {
+    mongo.findOne({_id: req.params.productId, market: req.params.marketId}, function(err, data) {
         if (err) {
-            throw new Error(err);
-        } else {
-            mongo.remove({
-                _id: req.params.id
-            },function(err) {
-                if (err) {
-                    throw new Error(err);
-                }
-                res.json(data);
-            });
+            return next(err);
         }
+        if (data === null) {
+            var notFound = new Error('Product not Found');
+            notFound.status = 404;
+            return next(notFound);
+        }
+        mongo.remove({
+            _id: req.params.id
+        },function(err) {
+            if (err) {
+                throw new Error(err);
+            }
+            res.json(data);
+        });
+
     });
 });
 
-router.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
 module.exports = router;
+
