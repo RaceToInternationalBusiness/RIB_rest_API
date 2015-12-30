@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "gulp build --prod",
-    "pretest": "mkdir -p ./data",
+    "pretest": "mkdir -p /tmp/RIB_DB/data",
     "test": "gulp test"
   },
   "dependencies": {

@@ -21,6 +21,14 @@ var paths = {
     scripts_build: './build/js'
 };
 
+var devEnv = {
+    PATH: process.env.PATH,
+    NPM_CONFIG_LOGLEVEL: 'debug',
+    NODE_ENV: 'development',
+    MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB'
+};
+
+
 var exec = require('child_process').exec;
 
 function runCommand(command) {
@@ -60,13 +68,7 @@ gulp.task('scripts', ['clean'], function() {
 });
 
 gulp.task('run', ['scripts'], function() {
-    plugins.env({
-        vars: {
-            NPM_CONFIG_LOGLEVEL: 'debug',
-            NODE_ENV: 'development',
-            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB'
-        }
-    });
+    plugins.env({vars: devEnv});
     return plugins.express.run(['bin/www'], null, false);
 });
 
@@ -74,8 +76,8 @@ gulp.task('stop', function() {
     return plugins.express.stop();
 });
 
-gulp.task('start-mongo', runCommand('mongod --dbpath ./data/ --fork --logpath ./data/mongodb.log'));
-gulp.task('stop-mongo', runCommand('mongod --dbpath ./data/ --shutdown'));
+gulp.task('start-mongo', runCommand('mongod --dbpath /tmp/RIB_DB/data/ --fork --logpath /tmp/RIB_DB/data/mongodb.log'));
+gulp.task('stop-mongo', runCommand('mongod --dbpath /tmp/RIB_DB/data/ --shutdown'));
 
 // Rerun the task when a file changes
 gulp.task('watch', ['scripts', 'run'], function() {
@@ -86,12 +88,25 @@ gulp.task('default', ['watch', 'scripts']);
 
 gulp.task('build', ['scripts']);
 
+gulp.task('start-test-server', ['build'], function(cb) {
+
+    testServer = require('child_process').exec('node bin/www', {env: devEnv, detached: true}, function (err, stdout, stderr) {
+        if (err.code)
+            throw err;
+        return;
+    });
+    return cb();
+});
+gulp.task('stop-test-server', function(cb) {
+    testServer.kill('SIGHUP');
+    return cb();
+});
 gulp.task('test', function(cb) {
     usePlumber = false;
     var runSequence = require('run-sequence').use(gulp);
-    return runSequence(['run', 'start-mongo'], 'run-test', ['stop', 'stop-mongo'], function(err) {
+    return runSequence('start-mongo', 'start-test-server', 'run-test', ['stop-test-server', 'stop-mongo'], function(err) {
         if (err) {
-            gulp.start('stop');
+            gulp.start('stop-test-server');
             gulp.start('stop-mongo');
             return process.exit(2);
         } else {
@@ -104,7 +119,7 @@ gulp.task('run-test', function() {
     usePlumber = false;
 
     return gulp.src(paths.scripts_test, {read: false})
-        .pipe(plugins.wait(500))
+        .pipe(plugins.wait(1000))
         .pipe(plugins.mocha({
             reporter: 'spec',
             globals: {
