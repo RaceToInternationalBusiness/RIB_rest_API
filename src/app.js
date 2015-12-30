@@ -20,6 +20,7 @@ var products = require('./routes/data/products.js');
 var decisions = require('./routes/data/decisions.js');
 var authentification = require('./routes/data/authentification.js');
 var sessions = require('./routes/data/sessions.js');
+var results = require('./routes/data/results.js');
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use('/products', products);
 app.use('/decisions', decisions);
 app.use('/authentification', authentification);
 app.use('/sessions', sessions);
+app.use('/results', results);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

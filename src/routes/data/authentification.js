@@ -121,7 +121,7 @@ router.post('/', function(req, res) {
  * Authentification function that check the login/password
  */
 .post('/authentificate', function(req, res, next) {
-    if (req.body.login&& req.body.password) {
+    if (req.body.login && req.body.password) {
         mongo.findOne({login: req.body.login,password: req.body.password},function(err, data) {
             if (err) {
                 next(new Error(err));
@@ -133,9 +133,7 @@ router.post('/', function(req, res) {
                 res.send(200,data);
             }
         });
-    }
-    else
-    {
+    } else {
         var err = new Error('Missing parameters');
         err.status = 422;
         next(err);
