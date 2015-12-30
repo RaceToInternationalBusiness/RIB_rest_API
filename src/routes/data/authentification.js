@@ -130,7 +130,8 @@ router.post('/', function(req, res) {
                 err.status = 404;
                 next(err);
             } else {
-                res.send(200,data);}
+                res.send(200,data);
+            }
         });
     } else {
         var err = new Error('Missing parameters');
