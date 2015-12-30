@@ -1,3 +1,4 @@
+'use strict';
 /**
  * definition of product db
  */
@@ -22,3 +23,4 @@ var product = {
 // create model if not exists.
 
 module.exports = mongoose.model('product', product);
+

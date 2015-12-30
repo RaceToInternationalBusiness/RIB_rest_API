@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * New node file
  */
@@ -19,3 +21,4 @@ var merchandiser = {
 // create model if not exists.
 
 module.exports = mongoose.model('merchandiser', merchandiser);
+

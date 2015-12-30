@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * New node file
  */
@@ -22,3 +24,4 @@ var adsensibility = {
 // create model if not exists.
 
 module.exports = mongoose.model('adsensibility', adsensibility);
+

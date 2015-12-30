@@ -1,3 +1,4 @@
+'use strict';
 /**
  * definition of session db
  */

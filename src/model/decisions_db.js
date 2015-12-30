@@ -1,3 +1,4 @@
+'use strict';
 /**
  * definition of team db
  */
@@ -35,3 +36,4 @@ var decision = {
 // create model if not exists.
 
 module.exports = mongoose.model('decision', decision);
+

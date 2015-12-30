@@ -1,3 +1,4 @@
+'use strict';
 /**
  * New node file
  */
@@ -26,3 +27,4 @@ var market = {
 // create model if not exists.
 
 module.exports = mongoose.model('market', market);
+

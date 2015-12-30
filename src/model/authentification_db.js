@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * New node file
  */
@@ -20,3 +22,4 @@ var authentification = {
 // create model if not exists.
 
 module.exports = mongoose.model('authentification', authentification);
+
