@@ -120,7 +120,7 @@ router.post('/', function(req, res) {
 /**
  * Authentification function that check the login/password
  */
-.post('/authentificate', function(req, res, next) {
+.post('/auth', function(req, res, next) {
     if (req.body.login && req.body.password) {
         mongo.findOne({login: req.body.login,password: req.body.password},function(err, data) {
             if (err) {

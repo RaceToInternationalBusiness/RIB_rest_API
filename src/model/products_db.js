@@ -15,14 +15,20 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 // var mongoSchema = mongoose.Schema;
 // create schema
 var product = {
-    'market': { type: Schema.ObjectId, ref: 'market'},
+    'market': {
+        type: Schema.ObjectId,
+        ref: 'market'
+    },
     'name': String,
-    'price': Number,
-    'coefAd': Number,
-    'coefMerch': Number,
-    'delay': Number
+    'priceIndex': [{
+        'index': Number,
+        'price': Number
+    }],
+    'advertising': [{
+        'index': Number,
+        'sensibility': Number
+    }]
 };
 // create model if not exists.
 
 module.exports = mongoose.model('product', product);
-

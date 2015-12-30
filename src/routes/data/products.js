@@ -47,10 +47,8 @@ router.post('/market/:marketId/product', function(req, res, next) {
     }
     db.market = req.params.marketId;
     db.name = req.body.name;
-    db.price = req.body.price;
-    db.coefAd = req.body.coefAd;
-    db.coefMerch = req.body.coefMerch;
-    db.delay = req.body.delay;
+    db.priceIndex = req.body.priceIndex;
+    db.advertising = req.body.advertising;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -80,18 +78,13 @@ router.route('/market/:marketId/product/:productId')
         if (req.body.name  !== 'undefined') {
             data.name = req.body.name;
         }
-        if (req.body.price !== 'undefined') {
-            data.price = req.body.price;
+        if (req.body.priceIndex !== 'undefined') {
+            data.priceIndex = req.body.priceIndex;
         }
-        if (req.body.coefAd !== 'undefined') {
-            data.coefAd = req.body.coefAd;
+        if (req.body.advertising !== 'undefined') {
+            data.advertising = req.body.advertising;
         }
-        if (req.body.coefMerch !== 'undefined') {
-            data.coefMerch = req.body.coefMerch;
-        }
-        if (req.body.delay !== 'undefined') {
-            data.delay = req.body.delay;
-        }
+        
         data.save(function(err) {
             if (err) {
                 throw new Error(err);
