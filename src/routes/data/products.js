@@ -84,7 +84,6 @@ router.route('/market/:marketId/product/:productId')
         if (req.body.advertising !== 'undefined') {
             data.advertising = req.body.advertising;
         }
-        
         data.save(function(err) {
             if (err) {
                 throw new Error(err);
