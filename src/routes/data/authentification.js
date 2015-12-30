@@ -121,17 +121,20 @@ router.post('/', function(req, res) {
  * Authentification function that check the login/password
  */
 .post('/authentificate', function(req, res) {
-    if (req.body.login !== '' && req.body.password !== '') {
+    if (req.body.login&& req.body.password) {
         mongo.findOne({login: req.body.login,password: req.body.password},function(err, data) {
             if (err) {
-                throw new Error(err);
-            } else if (data === null) {
-                err.status = 404;
-                res.json(err);
+                res.send(500,err);
+            } else if (!data) {
+                res.json(404,{error:"User not found"});
             } else {
-                res.json(data);
+                res.send(200,data);
             }
         });
+    }
+    else
+    {
+        res.send(422,{error:"Missing parameters"});
     }
 });
 
