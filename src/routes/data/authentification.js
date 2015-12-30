@@ -126,7 +126,7 @@ router.post('/', function(req, res) {
             if (err) {
                 next(new Error(err));
             } else if (!data) {
-                var err = new Error('User not found');
+                err = new Error('User not found');
                 err.status = 404;
                 next(err);
             } else {
