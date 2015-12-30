@@ -132,15 +132,6 @@ router.get('/', function(req, res) {
         res.json(data);
     });
 })
-
-.get('/decision/:year', function(req, res) {
-    mongo.find({'decisions.year': req.params.year}, 'decisions.$.productDecisions',function(err, data) {
-        if (err) {
-            throw new Error(err);
-        }
-        res.json(data);
-    });
-})
 /**
  * delete a by its id
  */

@@ -11,19 +11,25 @@ if (mongoStat !== 1 && mongoStat !== 2) {
 }
 
 // create instance of Schema
-// var mongoSchema = mongoose.Schema;
+var Schema = mongoose.Schema;
 // create schema
 var decision = {
-    'teamId': String,
+    'teamId': {
+        type: Schema.ObjectId,
+        ref: 'team'
+    },
     'decisions': [{
         'year': Number,
         'prime': Number,
         'nbSeller': Number,
-        'paymentDelay': Number,
+        'paymentDelay': String,
         'nbMachine': Number,
         'marketingCost': Number,
         'productDecisions': [{
-            'productName': String,
+            'productId': {
+                type: Schema.ObjectId,
+                ref: 'product'
+            },
             'stock': Number,
             'pvttc': Number,
             'pvht': Number,
@@ -36,4 +42,3 @@ var decision = {
 // create model if not exists.
 
 module.exports = mongoose.model('decision', decision);
-
