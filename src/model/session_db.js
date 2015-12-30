@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 
 var mongoStat = mongoose.connection.readyState;
 
-if (mongoStat !== 1 &&  mongoStat !== 2) {
+if (mongoStat !== 1 && mongoStat !== 2) {
     mongoose.connect(process.env.MONGOLAB_URI);
 }
 
@@ -18,10 +18,8 @@ var session = {
     'name': String,
     'nbYears': Number,
     'market': String,
-    'products': [Number],
     'members': [String]
 };
 // create model if not exists.
 
 module.exports = mongoose.model('session', session);
-

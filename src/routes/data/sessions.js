@@ -48,7 +48,6 @@ router.get('/', function(req, res) {
     db.name = req.body.name;
     db.nbYears = req.body.nbYears;
     db.market = req.body.market;
-    db.products = req.body.products;
     db.members = req.body.members;
 
     db.save(function(err) {

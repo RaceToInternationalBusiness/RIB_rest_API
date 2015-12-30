@@ -122,24 +122,14 @@ router.post('/', function(req, res) {
  */
 .post('/authentificate', function(req, res) {
     if (req.body.login !== '' && req.body.password !== '') {
-        mongo.find({login: req.body.login},function(err, data) {
-            var reponse = {};
+        mongo.findOne({login: req.body.login,password: req.body.password},function(err, data) {
             if (err) {
                 throw new Error(err);
-            } else if (data.length !== 0) {
-                if (data[0].password === req.body.password) {
-                    reponse.authenticated = true;
-                    reponse.isAdmin = data[0].isAdmin;
-                    res.json(reponse);
-                } else {
-                    reponse.authenticated = false;
-                    reponse.isAdmin = false;
-                    res.json(reponse);
-                }
+            } else if (data === null) {
+                err.status = 404;
+                res.json(err);
             } else {
-                reponse.authenticated = false;
-                reponse.isAdmin = false;
-                res.json(reponse);
+                res.json(data);
             }
         });
     }
