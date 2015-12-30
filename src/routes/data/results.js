@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to
+ * rest module that provide rest functions to results data
  */
 'use strict';
 
@@ -14,28 +14,28 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../../model/authentification_db.js');
+var mongo = require('../../model/results_db.js');
 // remove all entries for a mongo model
 
 // mongo.remove({}, function(err) {
 // console.log('collection removed');
 // });
 /**
- * read all authentification !! remove it or comment it
+ * read all results
  */
-// router.get('/', function(req, res) {
-//
-// mongo.find({}, function(err, data) {
-// // Mongo command to fetch all data from collection.
-// if (err) {
-// res.send(err);
-// }
-// res.json(data);
-// });
-//
-// });
+router.get('/', function(req, res) {
+
+    mongo.find({}, function(err, data) {
+        // Mongo command to fetch all data from collection.
+        if (err) {
+            res.send(err);
+        }
+        res.json(data);
+    });
+
+});
 /**
- * post (put) new authentification
+ * post (put) new results
  */
 router.post('/', function(req, res) {
 
@@ -44,9 +44,15 @@ router.post('/', function(req, res) {
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.login = req.body.login;
-    db.password = req.body.password;
-    db.isAdmin = req.body.isAdmin;
+    db.teamId = req.body.teamId;
+    db.year = req.body.year;
+    db.productCapacity = req.body.productCapacity;
+    db.market = req.body.market;
+    db.stock = req.body.stock;
+    db.sale = req.body.sale;
+    db.turnover = req.body.turnover;
+    db.salePrice = req.body.salePrice;
+    db.result = req.body.result;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -59,7 +65,7 @@ router.post('/', function(req, res) {
     });
 })
 /**
- * put (update) authentification
+ * put (update) results
  */
 .put('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -67,14 +73,32 @@ router.post('/', function(req, res) {
         if (err) {
             throw new Error(err);
         } else {
-            if (req.body.login  !== 'undefined') {
-                data.name = req.body.login;
+            if (req.body.teamId !== 'undefined') {
+                data.teamId = req.body.teamId;
             }
-            if (req.body.password !== 'undefined') {
-                data.session = req.body.password;
+            if (req.body.year !== 'undefined') {
+                data.year = req.body.year;
             }
-            if (req.body.isAdmin !== 'undefined') {
-                data.isAdmin = req.body.isAdmin;
+            if (req.body.productCapacity !== 'undefined') {
+                data.productCapacity = req.body.productCapacity;
+            }
+            if (req.body.market !== 'undefined') {
+                data.market = req.body.market;
+            }
+            if (req.body.stock !== 'undefined') {
+                data.stock = req.body.stock;
+            }
+            if (req.body.sale !== 'undefined') {
+                data.sale = req.body.sale;
+            }
+            if (req.body.turnover !== 'undefined') {
+                data.turnover = req.body.turnover;
+            }
+            if (req.body.salePrice !== 'undefined') {
+                data.salePrice = req.body.salePrice;
+            }
+            if (req.body.result !== 'undefined') {
+                data.result = req.body.result;
             }
 
             data.save(function(err) {
@@ -88,7 +112,7 @@ router.post('/', function(req, res) {
 })
 
 /**
- * get a authentification by its id
+ * get a results by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -99,7 +123,7 @@ router.post('/', function(req, res) {
     });
 })
 /**
- * delete an authentification by its id
+ * delete an results by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -116,28 +140,6 @@ router.post('/', function(req, res) {
             });
         }
     });
-})
-/**
- * Authentification function that check the login/password
- */
-.post('/authentificate', function(req, res, next) {
-    if (req.body.login && req.body.password) {
-        mongo.findOne({login: req.body.login,password: req.body.password},function(err, data) {
-            if (err) {
-                next(new Error(err));
-            } else if (!data) {
-                err = new Error('User not found');
-                err.status = 404;
-                next(err);
-            } else {
-                res.send(200,data);
-            }
-        });
-    } else {
-        var err = new Error('Missing parameters');
-        err.status = 422;
-        next(err);
-    }
 });
 
 router.use(function(req, res, next) {
