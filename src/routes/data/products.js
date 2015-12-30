@@ -78,11 +78,40 @@ router.route('/market/:marketId/product/:productId')
         if (req.body.name  !== 'undefined') {
             data.name = req.body.name;
         }
+        var update = function(scope, element) {
+            if (element._id !== undefined) {
+                var elementIndex = data[scope].findIndex(function(e) {
+                    return String(e._id) === String(element._id);
+                });
+                if (elementIndex !== -1) {
+                    Object.assign(data[scope][elementIndex], element);
+
+                }
+            } else {
+                data[scope].push(element);
+            }
+        };
         if (req.body.priceIndex !== 'undefined') {
-            data.priceIndex = req.body.priceIndex;
+            var updatePriceIndex = function(priceIndex) {
+                update('priceIndex', priceIndex);
+            };
+            if (Array.isArray(req.body.priceIndex)) {
+                req.body.priceIndex.forEach(updatePriceIndex);
+            } else {
+                updatePriceIndex(req.body.priceIndex);
+            }
         }
+
         if (req.body.advertising !== 'undefined') {
-            data.advertising = req.body.advertising;
+            var updateAdvertising = function(advertising) {
+                update('advertising', advertising);
+            };
+            if (Array.isArray(req.body.advertising)) {
+                req.body.advertising.forEach(updateAdvertising);
+            } else {
+                updateAdvertising(req.body.advertising);
+            }
+
         }
         data.save(function(err) {
             if (err) {
@@ -109,6 +138,7 @@ router.route('/market/:marketId/product/:productId')
         res.json(data);
     });
 })
+
 /**
  * delete a product by its id
  */
