@@ -15,6 +15,7 @@ var decisions = require('./routes/data/decisions.js');
 var authentification = require('./routes/data/authentification.js');
 var sessions = require('./routes/data/sessions.js');
 var results = require('./routes/data/results.js');
+var globalMarket = require('./routes/data/globalMarket.js');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use('/decisions', decisions);
 app.use('/authentification', authentification);
 app.use('/sessions', sessions);
 app.use('/', results);
+app.use('/globalMarket',globalMarket);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

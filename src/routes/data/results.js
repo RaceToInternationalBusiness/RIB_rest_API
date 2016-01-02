@@ -73,31 +73,31 @@ router.post('/result', function(req, res) {
         if (err) {
             throw new Error(err);
         } else {
-            if (req.body.teamId !== 'undefined') {
+            if (req.body.teamId !== undefined) {
                 data.teamId = req.body.teamId;
             }
-            if (req.body.year !== 'undefined') {
+            if (req.body.year !== undefined) {
                 data.year = req.body.year;
             }
-            if (req.body.productCapacity !== 'undefined') {
+            if (req.body.productCapacity !== undefined) {
                 data.productCapacity = req.body.productCapacity;
             }
-            if (req.body.market !== 'undefined') {
+            if (req.body.market !== undefined) {
                 data.market = req.body.market;
             }
-            if (req.body.stock !== 'undefined') {
+            if (req.body.stock !== undefined) {
                 data.stock = req.body.stock;
             }
-            if (req.body.sale !== 'undefined') {
+            if (req.body.sale !== undefined) {
                 data.sale = req.body.sale;
             }
-            if (req.body.turnover !== 'undefined') {
+            if (req.body.turnover !== undefined) {
                 data.turnover = req.body.turnover;
             }
-            if (req.body.salePrice !== 'undefined') {
+            if (req.body.salePrice !== undefined) {
                 data.salePrice = req.body.salePrice;
             }
-            if (req.body.result !== 'undefined') {
+            if (req.body.result !== undefined) {
                 data.result = req.body.result;
             }
 
