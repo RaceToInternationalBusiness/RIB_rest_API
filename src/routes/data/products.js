@@ -22,7 +22,7 @@ var mongo = require('../../model/products_db');
 // });
 
 /**
- * read all products
+ * read all products from an market id
  */
 router.get('/market/:marketId/products', function(req, res, next) {
 

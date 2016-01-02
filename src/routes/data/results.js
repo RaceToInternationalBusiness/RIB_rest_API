@@ -23,7 +23,7 @@ var mongo = require('../../model/results_db.js');
 /**
  * read all results
  */
-router.get('/', function(req, res) {
+router.get('/results', function(req, res) {
 
     mongo.find({}, function(err, data) {
         // Mongo command to fetch all data from collection.
@@ -37,7 +37,7 @@ router.get('/', function(req, res) {
 /**
  * post (put) new results
  */
-router.post('/', function(req, res) {
+router.post('/result', function(req, res) {
 
     var db = new mongo();
 
@@ -67,7 +67,7 @@ router.post('/', function(req, res) {
 /**
  * put (update) results
  */
-.put('/:id', function(req, res) {
+.put('/result/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
         console.log(data);
         if (err) {
@@ -114,13 +114,26 @@ router.post('/', function(req, res) {
 /**
  * get a results by its id
  */
-.get('/:id', function(req, res) {
+.get('/result/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
         if (err) {
             throw new Error(err);
         }
         res.json(data);
     });
+})
+/**
+ * get a results by team id
+ */
+.get('/team/:teamId/results',function(req, res, next)  {
+    mongo.find({teamId: req.params.teamId},function(err, data) {
+
+        if (err) {
+            res.send(err);
+        }
+        res.json(data);
+    });
+
 })
 /**
  * delete an results by its id

@@ -33,7 +33,7 @@ app.use('/teams', teams);
 app.use('/decisions', decisions);
 app.use('/authentification', authentification);
 app.use('/sessions', sessions);
-app.use('/results', results);
+app.use('/', results);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,4 +68,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
