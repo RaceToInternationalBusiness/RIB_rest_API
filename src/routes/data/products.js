@@ -75,9 +75,11 @@ router.route('/market/:marketId/product/:productId')
             notFound.status = 404;
             return next(notFound);
         }
+
         if (req.body.name  !== undefined) {
             data.name = req.body.name;
         }
+
         var update = function(scope, element) {
             if (element._id !== undefined) {
                 var elementIndex = data[scope].findIndex(function(e) {
@@ -91,6 +93,7 @@ router.route('/market/:marketId/product/:productId')
                 data[scope].push(element);
             }
         };
+
         if (req.body.priceIndex !== undefined) {
             var updatePriceIndex = function(priceIndex) {
                 update('priceIndex', priceIndex);
@@ -113,6 +116,7 @@ router.route('/market/:marketId/product/:productId')
             }
 
         }
+
         data.save(function(err) {
             if (err) {
                 throw new Error(err);
