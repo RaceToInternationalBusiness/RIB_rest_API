@@ -5,14 +5,14 @@ var server = supertest.agent("http://localhost:3000");
 
 var myMarket = {name:'myMarket',
     paymentDelay:[
-        {index:0,delay:"0"},
-        {index:0.95,delay:"30j"},
-        {index:1.00,delay:"30j fdm"}
+    {index:0,delay:"0"},
+    {index:0.95,delay:"30j"},
+    {index:1.00,delay:"30j fdm"}
     ],
     merchandiser:[
-        {index:0.30,nbMerchandiser:0},
-        {index:0.60,nbMerchandiser:1},
-        {index:0.8,nbMerchandiser:2}
+    {index:0.30,nbMerchandiser:0},
+    {index:0.60,nbMerchandiser:1},
+    {index:0.8,nbMerchandiser:2}
     ]};
 var myMarketId;
 
@@ -41,7 +41,7 @@ describe('Market rest', function() {
                 removeId(myMarket.merchandiser);
                 removeId(myMarket.paymentDelay);
             })
-            .expect("Content-type",/json/)
+        .expect("Content-type",/json/)
             .expect(200, done)
             .expect(function(res) {
                 res.body.should.have.property('paymentDelay');
@@ -49,12 +49,12 @@ describe('Market rest', function() {
                 res.body.should.have.property('merchandiser');
                 removeId(res.body.merchandiser);
             })
-            .expect(function(res) {
-                res.body.should.have.property('_id').equal(myMarketId);
-                res.body.should.have.property('name').equal(myMarket.name);
-                res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-            }, done);
+        .expect(function(res) {
+            res.body.should.have.property('_id').equal(myMarketId);
+            res.body.should.have.property('name').equal(myMarket.name);
+            res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+            res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+        }, done);
     });
 
     it("should edit name of myMarket", function(done) {
@@ -64,10 +64,10 @@ describe('Market rest', function() {
                 removeId(myMarket.merchandiser);
                 removeId(myMarket.paymentDelay);
             })
-            .expect(function() {
-                myMarket.name = "editedMarket";
-            })
-            .expect("Content-type",/json/)
+        .expect(function() {
+            myMarket.name = "editedMarket";
+        })
+        .expect("Content-type",/json/)
             .expect(200, done)
             .expect(function(res) {
                 res.body.should.have.property('paymentDelay');
@@ -75,12 +75,12 @@ describe('Market rest', function() {
                 res.body.should.have.property('merchandiser');
                 removeId(res.body.merchandiser);
             })
-            .expect(function(res) {
-                res.body.should.have.property('_id').equal(myMarketId);
-                res.body.should.have.property('name').equal(myMarket.name);
-                res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-            }, done);
+        .expect(function(res) {
+            res.body.should.have.property('_id').equal(myMarketId);
+            res.body.should.have.property('name').equal(myMarket.name);
+            res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+            res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+        }, done);
     });
 
     ///////////////////////
@@ -95,10 +95,10 @@ describe('Market rest', function() {
                 removeId(myMarket.merchandiser);
                 removeId(myMarket.paymentDelay);
             })
-            .expect(function() {
-                myMarket.name = "editedMarket";
-            })
-            .expect("Content-type",/json/)
+        .expect(function() {
+            myMarket.name = "editedMarket";
+        })
+        .expect("Content-type",/json/)
             .expect(200, done)
             .expect(function(res) {
                 res.body.should.have.property('paymentDelay');
@@ -106,35 +106,38 @@ describe('Market rest', function() {
                 res.body.should.have.property('merchandiser');
                 removeId(res.body.merchandiser);
             })
-            .expect(function(res) {
-                res.body.should.have.property('_id').equal(myMarketId);
-                res.body.should.have.property('name').equal(myMarket.name);
-                res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-            }, done);
+        .expect(function(res) {
+            res.body.should.have.property('_id').equal(myMarketId);
+            res.body.should.have.property('name').equal(myMarket.name);
+            res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+            res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+        }, done);
     });
 
     it("should add more merchandiser of myMarket", function(done) {
-        var newMerchandiser = [{index:1.18, nbMerchandiser:4},
-            {index:1.26, nbMerchandiser:5}];
-        server.put("/market/" + myMarketId)
-            .send({merchandiser: newMerchandiser})
-            .expect(function() {
-                myMarket.merchandiser = myMarket.merchandiser.concat(newMerchandiser);
-                removeId(myMarket.merchandiser);
-                removeId(myMarket.paymentDelay);
-            })
+        var newMerchandiser =
+            [
+            {index:1.18, nbMerchandiser:4},
+            {index:1.26, nbMerchandiser:5}
+            ];
+            server.put("/market/" + myMarketId)
+                .send({merchandiser: newMerchandiser})
+                .expect(function() {
+                    myMarket.merchandiser = myMarket.merchandiser.concat(newMerchandiser);
+                    removeId(myMarket.merchandiser);
+                    removeId(myMarket.paymentDelay);
+                })
             .expect(function() {
                 myMarket.name = "editedMarket";
             })
             .expect("Content-type",/json/)
-            .expect(200, done)
-            .expect(function(res) {
-                res.body.should.have.property('paymentDelay');
-                removeId(res.body.paymentDelay);
-                res.body.should.have.property('merchandiser');
-                removeId(res.body.merchandiser);
-            })
+                .expect(200, done)
+                .expect(function(res) {
+                    res.body.should.have.property('paymentDelay');
+                    removeId(res.body.paymentDelay);
+                    res.body.should.have.property('merchandiser');
+                    removeId(res.body.merchandiser);
+                })
             .expect(function(res) {
                 res.body.should.have.property('_id').equal(myMarketId);
                 res.body.should.have.property('name').equal(myMarket.name);
@@ -157,10 +160,10 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect(function () {
-                        myMarket.name = "editedMarket";
-                    })
-                    .expect("Content-type", /json/)
+                .expect(function () {
+                    myMarket.name = "editedMarket";
+                })
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -168,12 +171,12 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
 
@@ -192,10 +195,10 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect(function () {
-                        myMarket.name = "editedMarket";
-                    })
-                    .expect("Content-type", /json/)
+                .expect(function () {
+                    myMarket.name = "editedMarket";
+                })
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -203,12 +206,12 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
 
@@ -230,10 +233,10 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect(function () {
-                        myMarket.name = "editedMarket";
-                    })
-                    .expect("Content-type", /json/)
+                .expect(function () {
+                    myMarket.name = "editedMarket";
+                })
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -241,12 +244,12 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
 
@@ -262,10 +265,10 @@ describe('Market rest', function() {
                 removeId(myMarket.merchandiser);
                 removeId(myMarket.paymentDelay);
             })
-            .expect(function() {
-                myMarket.name = "editedMarket";
-            })
-            .expect("Content-type",/json/)
+        .expect(function() {
+            myMarket.name = "editedMarket";
+        })
+        .expect("Content-type",/json/)
             .expect(200, done)
             .expect(function(res) {
                 res.body.should.have.property('paymentDelay');
@@ -273,17 +276,17 @@ describe('Market rest', function() {
                 res.body.should.have.property('merchandiser');
                 removeId(res.body.merchandiser);
             })
-            .expect(function(res) {
-                res.body.should.have.property('_id').equal(myMarketId);
-                res.body.should.have.property('name').equal(myMarket.name);
-                res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-            }, done);
+        .expect(function(res) {
+            res.body.should.have.property('_id').equal(myMarketId);
+            res.body.should.have.property('name').equal(myMarket.name);
+            res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+            res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+        }, done);
     });
 
     it("should add more PaymentDelay of myMarket", function(done) {
         var newPaymentDelay = [{index:1.18, delay:"60j fdm"},
-            {index:1.26, delay:"90j"}];
+        {index:1.26, delay:"90j"}];
         server.put("/market/" + myMarketId)
             .send({paymentDelay: newPaymentDelay})
             .expect(function() {
@@ -291,10 +294,10 @@ describe('Market rest', function() {
                 removeId(myMarket.merchandiser);
                 removeId(myMarket.paymentDelay);
             })
-            .expect(function() {
-                myMarket.name = "editedMarket";
-            })
-            .expect("Content-type",/json/)
+        .expect(function() {
+            myMarket.name = "editedMarket";
+        })
+        .expect("Content-type",/json/)
             .expect(200, done)
             .expect(function(res) {
                 res.body.should.have.property('paymentDelay');
@@ -302,12 +305,12 @@ describe('Market rest', function() {
                 res.body.should.have.property('merchandiser');
                 removeId(res.body.merchandiser);
             })
-            .expect(function(res) {
-                res.body.should.have.property('_id').equal(myMarketId);
-                res.body.should.have.property('name').equal(myMarket.name);
-                res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-            }, done);
+        .expect(function(res) {
+            res.body.should.have.property('_id').equal(myMarketId);
+            res.body.should.have.property('name').equal(myMarket.name);
+            res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+            res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+        }, done);
     });
 
     it("should edit one PaymentDelay of myMarket", function(done) {
@@ -324,10 +327,10 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect(function () {
-                        myMarket.name = "editedMarket";
-                    })
-                    .expect("Content-type", /json/)
+                .expect(function () {
+                    myMarket.name = "editedMarket";
+                })
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -335,12 +338,12 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
 
@@ -359,10 +362,10 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect(function () {
-                        myMarket.name = "editedMarket";
-                    })
-                    .expect("Content-type", /json/)
+                .expect(function () {
+                    myMarket.name = "editedMarket";
+                })
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -370,12 +373,12 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
 
@@ -397,10 +400,10 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect(function () {
-                        myMarket.name = "editedMarket";
-                    })
-                    .expect("Content-type", /json/)
+                .expect(function () {
+                    myMarket.name = "editedMarket";
+                })
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -408,12 +411,12 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
 
@@ -421,7 +424,7 @@ describe('Market rest', function() {
         var storedPaymentDelay;
         var storedMerchandiser;
         var newName = 'finalEdit market'
-        server.get("/market/" + myMarketId)
+            server.get("/market/" + myMarketId)
             .end(function (err, res) {
                 storedPaymentDelay = res.body.paymentDelay;
                 storedPaymentDelay[0].index = 1.2;
@@ -446,7 +449,7 @@ describe('Market rest', function() {
                         removeId(myMarket.merchandiser);
                         removeId(myMarket.paymentDelay);
                     })
-                    .expect("Content-type", /json/)
+                .expect("Content-type", /json/)
                     .expect(200, done)
                     .expect(function (res) {
                         res.body.should.have.property('paymentDelay');
@@ -454,12 +457,27 @@ describe('Market rest', function() {
                         res.body.should.have.property('merchandiser');
                         removeId(res.body.merchandiser);
                     })
-                    .expect(function (res) {
-                        res.body.should.have.property('_id').equal(myMarketId);
-                        res.body.should.have.property('name').equal(myMarket.name);
-                        res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
-                        res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
-                    }, done);
+                .expect(function (res) {
+                    res.body.should.have.property('_id').equal(myMarketId);
+                    res.body.should.have.property('name').equal(myMarket.name);
+                    res.body.should.have.property('paymentDelay').eql(myMarket.paymentDelay);
+                    res.body.should.have.property('merchandiser').eql(myMarket.merchandiser);
+                }, done);
             });
     });
+
+    it('should get all market', function(done) {
+        server.get('/markets')
+            .expect('Content-type', /json/)
+            .expect(200, done)
+            .expect(function(res) {
+                res.body.should.be.an.Array;
+                res.body.forEach(function(m) {
+                    m.should.have.property('_id').not.be.empty;
+                    m.should.have.property('name').be.a.String;
+                    m.should.have.property('name').not.be.empty;
+                });
+            }, done);
+    });
 });
+
