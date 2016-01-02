@@ -104,7 +104,7 @@ gulp.task('run-test', function() {
     usePlumber = false;
 
     return gulp.src(paths.scripts_test, {read: false})
-        .pipe(plugins.wait(500))
+        .pipe(plugins.wait(1000))
         .pipe(plugins.mocha({
             reporter: 'spec',
             globals: {
