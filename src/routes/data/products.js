@@ -75,7 +75,7 @@ router.route('/market/:marketId/product/:productId')
             notFound.status = 404;
             return next(notFound);
         }
-        if (req.body.name  !== 'undefined') {
+        if (req.body.name  !== undefined) {
             data.name = req.body.name;
         }
         var update = function(scope, element) {
@@ -91,7 +91,7 @@ router.route('/market/:marketId/product/:productId')
                 data[scope].push(element);
             }
         };
-        if (req.body.priceIndex !== 'undefined') {
+        if (req.body.priceIndex !== undefined) {
             var updatePriceIndex = function(priceIndex) {
                 update('priceIndex', priceIndex);
             };
@@ -102,7 +102,7 @@ router.route('/market/:marketId/product/:productId')
             }
         }
 
-        if (req.body.advertising !== 'undefined') {
+        if (req.body.advertising !== undefined) {
             var updateAdvertising = function(advertising) {
                 update('advertising', advertising);
             };

@@ -70,16 +70,16 @@ router.get('/', function(req, res) {
         if (err) {
             throw new Error(err);
         } else {
-            if (req.body.name  !== 'undefined') {
+            if (req.body.name  !== undefined) {
                 data.name = req.body.name;
             }
-            if (req.body.session !== 'undefined') {
+            if (req.body.session !== undefined) {
                 data.session = req.body.session;
             }
-            if (req.body.created !== 'undefined') {
+            if (req.body.created !== undefined) {
                 data.created = req.body.created;
             }
-            if (req.body.membrers !== 'undefined') {
+            if (req.body.membrers !== undefined) {
                 data.members = req.body.members;
             }
             data.save(function(err) {
@@ -100,13 +100,13 @@ router.get('/', function(req, res) {
         lastname: '',
         email: ''
     };
-    if (req.body.firstname  !== 'undefined') {
+    if (req.body.firstname  !== undefined) {
         member.firstname = req.body.firstname;
     }
-    if (req.body.lastname !== 'undefined') {
+    if (req.body.lastname !== undefined) {
         member.lastname = req.body.lastname;
     }
-    if (req.body.email !== 'undefined') {
+    if (req.body.email !== undefined) {
         member.email = req.body.email;
     }
     mongo.findOneAndUpdate(req.params.id,
