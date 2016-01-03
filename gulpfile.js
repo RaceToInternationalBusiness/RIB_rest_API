@@ -64,7 +64,8 @@ gulp.task('run', ['scripts'], function() {
         vars: {
             NPM_CONFIG_LOGLEVEL: 'debug',
             NODE_ENV: 'development',
-            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB'
+            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB',
+            CORS_ORIGIN: 'http://127.0.0.1:9000,http://localhost:9000'
         }
     });
     return plugins.express.run(['bin/www'], null, false);
