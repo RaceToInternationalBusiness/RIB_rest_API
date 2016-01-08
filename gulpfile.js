@@ -17,8 +17,21 @@ var usePlumber = true;
 
 var paths = {
     scripts_src: ['./src/**/*.js'],
+    scripts_test: ['./test/**/*.js'],
     scripts_build: './build/js'
 };
+
+var exec = require('child_process').exec;
+
+function runCommand(command) {
+    return function (cb) {
+        exec(command, function (err, stdout, stderr) {
+            console.log(stdout);
+            console.log(stderr);
+            cb();
+        });
+    }
+}
 
 // Not all tasks need to use streams
 // A gulpfile is just another node program and you can use all packages available on npm
@@ -51,11 +64,19 @@ gulp.task('run', ['scripts'], function() {
         vars: {
             NPM_CONFIG_LOGLEVEL: 'debug',
             NODE_ENV: 'development',
-            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB'
+            MONGOLAB_URI: 'mongodb://localhost:27017/RIB_DB',
+            CORS_ORIGIN: 'http://127.0.0.1:9000,http://localhost:9000'
         }
     });
-    plugins.express.run(['bin/www']);
+    return plugins.express.run(['bin/www'], null, false);
 });
+
+gulp.task('stop', function() {
+    return plugins.express.stop();
+});
+
+gulp.task('start-mongo', runCommand('mongod --dbpath ./data/ --fork --logpath ./data/mongodb.log'));
+gulp.task('stop-mongo', runCommand('mongod --dbpath ./data/ --shutdown'));
 
 // Rerun the task when a file changes
 gulp.task('watch', ['scripts', 'run'], function() {
@@ -66,8 +87,30 @@ gulp.task('default', ['watch', 'scripts']);
 
 gulp.task('build', ['scripts']);
 
-gulp.task('test', function() {
+gulp.task('test', function(cb) {
     usePlumber = false;
-    gulp.start('build');
+    var runSequence = require('run-sequence').use(gulp);
+    return runSequence(['run', 'start-mongo'], 'run-test', ['stop', 'stop-mongo'], function(err) {
+        if (err) {
+            gulp.start('stop');
+            gulp.start('stop-mongo');
+            return process.exit(2);
+        } else {
+            return cb();
+        }
+    });
+});
+
+gulp.task('run-test', function() {
+    usePlumber = false;
+
+    return gulp.src(paths.scripts_test, {read: false})
+        .pipe(plugins.wait(1000))
+        .pipe(plugins.mocha({
+            reporter: 'spec',
+            globals: {
+                should: require('should')
+            }
+        }));
 });
 

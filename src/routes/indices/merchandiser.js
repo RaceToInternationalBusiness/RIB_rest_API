@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to
+ * rest module that provide rest functions to mechandiser rates
  */
 'use strict';
 
@@ -14,10 +14,14 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/team_db');
+var mongo = require('../../model/indices/merchandiser_db.js');
+// remove all entries for a mongo model
 
+// mongo.remove({}, function(err) {
+// console.log('collection removed');
+// });
 /**
- * read all team
+ * read all merchandiser rate
  */
 router.get('/', function(req, res) {
 
@@ -30,8 +34,9 @@ router.get('/', function(req, res) {
     });
 
 })
+
 /**
- * post (put) new team
+ * post (put) new nbMerchandiser with index
  */
 .post('/', function(req, res) {
 
@@ -40,13 +45,8 @@ router.get('/', function(req, res) {
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.name = req.body.name;
-
-    db.session = req.body.session;
-
-    db.created = Date.now();
-
-    db.members = req.body.members;
+    db.nbMerchandiser = req.body.nbMerchandiser;
+    db.index = req.body.index;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -59,7 +59,31 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * get a team by its id
+ * put (update) merchandiser index
+ */
+.put('/:nbMerchandiser', function(req, res) {
+    mongo.find({'nbMerchandiser': req.param.nbMerchandiser}, function(err, data) {
+        console.log(data);
+        if (err) {
+            throw new Error(err);
+        } else {
+
+            if (req.body.index !== 'undefined') {
+                data.index = req.body.index;
+            }
+            console.log(data);
+            data.save(function(err) {
+                if (err) {
+                    throw new Error(err);
+                }
+            });
+        }
+        res.json(data);
+    });
+})
+
+/**
+ * get an merchandiser number and index by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -71,7 +95,7 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * delete a team by its id
+ * delete an mechandiser by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {

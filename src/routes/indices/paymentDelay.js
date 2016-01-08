@@ -1,5 +1,5 @@
 /**
- * rest module that provide rest functions to teams table
+ * rest module that provide rest functions to paymentDelay
  */
 'use strict';
 
@@ -14,10 +14,14 @@ router.use(bodyParser.urlencoded({
 /**
  * mongodb module
  */
-var mongo = require('../model/products_db');
+var mongo = require('../../model/indices/paymentDelay_db.js');
+// remove all entries for a mongo model
 
+// mongo.remove({}, function(err) {
+// console.log('collection removed');
+// });
 /**
- * read all team
+ * read all payment delay
  */
 router.get('/', function(req, res) {
 
@@ -30,8 +34,9 @@ router.get('/', function(req, res) {
     });
 
 })
+
 /**
- * post (create) new team
+ * post (put) new delai payment with index
  */
 .post('/', function(req, res) {
 
@@ -40,7 +45,8 @@ router.get('/', function(req, res) {
     if (JSON.stringify(req.body) === '{}') {
         throw new Error('Post request has no parameters');
     }
-    db.name = req.body.name;
+    db.delay = req.body.delay;
+    db.index = req.body.index;
 
     db.save(function(err) {
         // save() will run insert() command of MongoDB.
@@ -52,9 +58,31 @@ router.get('/', function(req, res) {
         res.send();
     });
 })
+/**
+ * put (update) delay index
+ */
+.put('/:delay', function(req, res) {
+    mongo.find({delay: req.params.delay}, function(err, data) {
+        if (err) {
+            throw new Error(err);
+        } else {
+
+            if (req.body.index !== 'undefined') {
+                data.index = req.body.index;
+            }
+
+            data.save(function(err) {
+                if (err) {
+                    throw new Error(err);
+                }
+            });
+        }
+        res.json(data);
+    });
+})
 
 /**
- * get a team by its id
+ * get an delay and index by its id
  */
 .get('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -66,7 +94,7 @@ router.get('/', function(req, res) {
     });
 })
 /**
- * delete a team by its id
+ * delete an authentification by its id
  */
 .delete('/:id', function(req, res) {
     mongo.findById(req.params.id, function(err, data) {
@@ -74,7 +102,7 @@ router.get('/', function(req, res) {
             throw new Error(err);
         } else {
             mongo.remove({
-                _id: req.params.id
+                name: req.params.id
             }, function(err) {
                 if (err) {
                     throw new Error(err);
